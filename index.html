@@ -14,6 +14,10 @@
       --text-color: #e2e8f0;
       --accent-color: #6366f1;
       --secondary-color: #8b5cf6;
+      --button-primary: #6366f1;
+      --button-secondary: #8b5cf6;
+      --icon-color: #6366f1;
+      --emoji-filter: none;
     }
 
     body {
@@ -21,6 +25,7 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%236366f1'/%3E%3C/svg%3E") 12 12, auto;
     }
     
     .theme-transition {
@@ -131,150 +136,360 @@
       margin: 40px 0;
     }
 
-    /* Status indicator dots */
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--accent-color);
-      animation: pulse 2s infinite;
-    }
-
-    .status-dot:nth-child(2) {
-      animation-delay: 0.2s;
-      background-color: var(--secondary-color);
-    }
-
-    .status-dot:nth-child(3) {
-      animation-delay: 0.4s;
-      background-color: var(--accent-color);
-    }
-
-    /* Scroll indicator */
-    .scroll-indicator {
+    /* Profile Image Styles */
+    .profile-image {
+      width: 320px;
+      height: 320px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 4px solid;
       border-color: var(--accent-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
-    .scroll-indicator-dot {
-      background-color: var(--accent-color);
+    .profile-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 40px rgba(var(--accent-color-rgb), 0.2);
     }
 
-    /* Contact button border */
-    .contact-btn {
-      border-color: var(--accent-color);
-      color: var(--accent-color);
-    }
-
-    .contact-btn:hover {
-      background-color: var(--accent-color);
-      color: white;
-    }
-
-    /* Theme-aware icons */
-    .theme-icon {
-      color: var(--accent-color);
-    }
-
-    .theme-icon-secondary {
-      color: var(--secondary-color);
-    }
-
-    .theme-icon-white {
-      color: white;
-    }
-
-    /* Project card backgrounds */
-    .project-card-bg {
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Color picker styles */
-    .color-picker-container {
+    .image-container {
       position: relative;
       display: inline-block;
     }
 
-    .color-picker-button {
-      background-color: var(--surface-color);
-      border: 1px solid rgba(var(--accent-color-rgb), 0.2);
-      color: var(--text-color);
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
+    .image-container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      border-radius: 30px;
+      z-index: -1;
+      opacity: 0.3;
       transition: all 0.3s ease;
+    }
+
+    .image-container:hover::before {
+      opacity: 0.5;
+      transform: scale(1.05);
+    }
+
+    /* Button Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--button-primary), var(--button-secondary));
+      color: white;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(var(--accent-color-rgb), 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Icon and Emoji Styles */
+    .theme-icon {
+      color: var(--icon-color);
+      transition: color 0.3s ease;
+    }
+
+    .theme-emoji {
+      filter: var(--emoji-filter);
+      transition: filter 0.3s ease;
+    }
+
+    /* AI Assistant Styles */
+    .ai-assistant {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+    }
+
+    .ai-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      border: none;
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .color-picker-button:hover {
-      border-color: var(--accent-color);
-    }
-
-    .color-picker-popup {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      margin-top: 8px;
-      background: var(--surface-color);
-      border: 1px solid rgba(var(--accent-color-rgb), 0.2);
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      z-index: 1000;
-      min-width: 200px;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.4);
+      transition: var(--transition);
+      animation: pulse 2s infinite;
       backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
     }
 
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    .ai-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(var(--accent-color-rgb), 0.6);
+    }
+
+    .ai-chat {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 350px;
+      max-width: 90vw;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1001;
+    }
+
+    .ai-chat.active {
+      display: flex;
+    }
+
+    .ai-header {
+      padding: 15px 20px;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ai-header h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+
+    .ai-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: blink 2s infinite;
+    }
+
+    .ai-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .ai-messages {
+      flex: 1;
+      padding: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 10px 12px;
+      border-radius: 15px;
+      max-width: 85%;
+      animation: fadeIn 0.3s ease-out;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .message.user {
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+
+    .message.ai {
+      background: rgba(255, 255, 255, 0.1);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+
+    .message.ai-link {
+      background: rgba(255, 255, 255, 0.1);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .message.ai-link:hover {
+      background: rgba(var(--accent-color-rgb), 0.1);
+    }
+
+    .ai-input {
+      display: flex;
+      padding: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       gap: 8px;
     }
 
-    .color-option {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 2px solid transparent;
+    .chat-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      transition: var(--transition);
+      font-family: inherit;
+      font-size: 0.9rem;
     }
 
-    .color-option:hover {
-      transform: scale(1.1);
-      border-color: var(--text-color);
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.1);
     }
 
-    .color-option.active {
-      border-color: var(--text-color);
-      transform: scale(1.1);
-    }
-
-    .preset-themes {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(var(--accent-color-rgb), 0.2);
-    }
-
-    .preset-theme {
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .preset-theme:hover {
-      background-color: rgba(var(--accent-color-rgb), 0.1);
-    }
-
-    .preset-theme.active {
-      background-color: rgba(var(--accent-color-rgb), 0.2);
+    .send-btn {
+      background: transparent;
       color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      padding: 8px 12px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      font-size: 0.9rem;
+    }
+
+    .send-btn:hover {
+      background: var(--accent-color);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 640px) {
+      .ai-chat {
+        width: calc(100vw - 40px);
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        bottom: 90px;
+        max-width: none;
+      }
+      
+      .ai-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      .ai-messages {
+        max-height: 250px;
+        padding: 12px;
+      }
+      
+      .message {
+        max-width: 90%;
+        font-size: 0.85rem;
+        padding: 8px 10px;
+      }
+      
+      .ai-input {
+        padding: 10px;
+      }
+      
+      .chat-input {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+      }
+      
+      .send-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+
+      .profile-image {
+        width: 280px;
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ai-chat {
+        width: calc(100vw - 30px);
+        bottom: 80px;
+      }
+      
+      .ai-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+        bottom: 15px;
+        right: 15px;
+      }
+      
+      .ai-messages {
+        max-height: 200px;
+      }
+      
+      .ai-header h3 {
+        font-size: 0.9rem;
+      }
+
+      .profile-image {
+        width: 250px;
+        height: 250px;
+      }
     }
   </style>
 </head>
@@ -282,76 +497,32 @@
   <header class="fixed top-0 w-full z-50 backdrop-blur-md border-b theme-transition glass-effect" id="header">
    <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
     <div class="text-2xl font-bold gradient-text flex items-center" id="nav-name">
-      <i class="fas fa-code mr-2 theme-icon"></i>Brian Onsare
+      <i class="fas fa-code theme-icon mr-2"></i>Brian Onsare
     </div>
     <div class="flex items-center space-x-6">
      <div class="hidden md:flex space-x-6">
        <a href="#about" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-about">
-         <i class="fas fa-user mr-2 theme-icon"></i>About
+         <i class="fas fa-user theme-icon mr-2"></i>About
        </a>
        <a href="#skills" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-skills">
-         <i class="fas fa-cog mr-2 theme-icon"></i>Skills
+         <i class="fas fa-cog theme-icon mr-2"></i>Skills
        </a>
        <a href="#projects" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-projects">
-         <i class="fas fa-project-diagram mr-2 theme-icon"></i>Projects
+         <i class="fas fa-project-diagram theme-icon mr-2"></i>Projects
        </a>
        <a href="#contact" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-contact">
-         <i class="fas fa-envelope mr-2 theme-icon"></i>Contact
+         <i class="fas fa-envelope theme-icon mr-2"></i>Contact
        </a>
      </div>
-     <div class="color-picker-container">
-        <button class="color-picker-button theme-transition" id="theme-button">
-          <i class="fas fa-palette theme-icon"></i>
-          <span>Theme</span>
-        </button>
-        <div class="color-picker-popup theme-transition glass-effect" id="color-picker" style="display: none;">
-          <div class="color-grid">
-            <!-- Red colors -->
-            <div class="color-option" style="background-color: #ef4444;" data-color="#ef4444" data-secondary="#f87171"></div>
-            <div class="color-option" style="background-color: #dc2626;" data-color="#dc2626" data-secondary="#ef4444"></div>
-            <div class="color-option" style="background-color: #f97316;" data-color="#f97316" data-secondary="#fb923c"></div>
-            <div class="color-option" style="background-color: #ea580c;" data-color="#ea580c" data-secondary="#f97316"></div>
-            
-            <!-- Green colors -->
-            <div class="color-option" style="background-color: #10b981;" data-color="#10b981" data-secondary="#34d399"></div>
-            <div class="color-option" style="background-color: #059669;" data-color="#059669" data-secondary="#10b981"></div>
-            <div class="color-option" style="background-color: #65a30d;" data-color="#65a30d" data-secondary="#84cc16"></div>
-            <div class="color-option" style="background-color: #4d7c0f;" data-color="#4d7c0f" data-secondary="#65a30d"></div>
-            
-            <!-- Blue colors -->
-            <div class="color-option" style="background-color: #3b82f6;" data-color="#3b82f6" data-secondary="#60a5fa"></div>
-            <div class="color-option" style="background-color: #2563eb;" data-color="#2563eb" data-secondary="#3b82f6"></div>
-            <div class="color-option" style="background-color: #6366f1;" data-color="#6366f1" data-secondary="#8b5cf6"></div>
-            <div class="color-option" style="background-color: #4f46e5;" data-color="#4f46e5" data-secondary="#6366f1"></div>
-            
-            <!-- Purple colors -->
-            <div class="color-option" style="background-color: #8b5cf6;" data-color="#8b5cf6" data-secondary="#a855f7"></div>
-            <div class="color-option" style="background-color: #7c3aed;" data-color="#7c3aed" data-secondary="#8b5cf6"></div>
-            <div class="color-option" style="background-color: #a855f7;" data-color="#a855f7" data-secondary="#c084fc"></div>
-            <div class="color-option" style="background-color: #9333ea;" data-color="#9333ea" data-secondary="#a855f7"></div>
-            
-            <!-- Pink colors -->
-            <div class="color-option" style="background-color: #ec4899;" data-color="#ec4899" data-secondary="#f472b6"></div>
-            <div class="color-option" style="background-color: #db2777;" data-color="#db2777" data-secondary="#ec4899"></div>
-            <div class="color-option" style="background-color: #be185d;" data-color="#be185d" data-secondary="#db2777"></div>
-            
-            <!-- Teal colors -->
-            <div class="color-option" style="background-color: #14b8a6;" data-color="#14b8a6" data-secondary="#2dd4bf"></div>
-            <div class="color-option" style="background-color: #0d9488;" data-color="#0d9488" data-secondary="#14b8a6"></div>
-            
-            <!-- Cyan colors -->
-            <div class="color-option" style="background-color: #06b6d4;" data-color="#06b6d4" data-secondary="#22d3ee"></div>
-            <div class="color-option" style="background-color: #0891b2;" data-color="#0891b2" data-secondary="#06b6d4"></div>
-          </div>
-          <div class="preset-themes">
-            <div class="preset-theme theme-transition" data-theme="normal">Default Theme</div>
-            <div class="preset-theme theme-transition" data-theme="dark">Dark Blue</div>
-            <div class="preset-theme theme-transition" data-theme="nature">Nature Green</div>
-            <div class="preset-theme theme-transition" data-theme="sunset">Sunset Red</div>
-            <div class="preset-theme theme-transition" data-theme="ocean">Ocean Blue</div>
-          </div>
-        </div>
-      </div>
+     <div class="relative">
+       <select class="theme-dropdown" id="theme-selector">
+         <option value="normal">Normal</option>
+         <option value="dark">Dark</option>
+         <option value="nature">Nature</option>
+         <option value="sunset">Sunset</option>
+         <option value="ocean">Ocean</option>
+       </select>
+     </div>
     </div>
    </nav>
   </header>
@@ -367,24 +538,24 @@
       <div class="max-w-4xl mx-auto text-center relative z-10">
         <div class="animate-fade-in">
           <div class="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-bg mb-8 pulse-animation">
-            <i class="fas fa-laptop-code text-white text-2xl theme-icon-white"></i>
+            <i class="fas fa-laptop-code text-white text-2xl"></i>
           </div>
           <h1 class="text-5xl md:text-7xl font-bold mb-6 gradient-text" id="hero-name">Brian Onsare</h1>
           <h2 class="text-2xl md:text-3xl mb-8 theme-transition flex items-center justify-center" id="hero-title">
             <span class="mr-3">Software Engineer</span>
-            <span class="inline-flex space-x-1">
-              <span class="status-dot"></span>
-              <span class="status-dot"></span>
-              <span class="status-dot"></span>
+            <span class="inline-flex">
+              <span class="w-2 h-2 rounded-full mr-1 animate-pulse theme-indicator"></span>
+              <span class="w-2 h-2 rounded-full mr-1 animate-pulse theme-indicator" style="animation-delay: 0.2s"></span>
+              <span class="w-2 h-2 rounded-full animate-pulse theme-indicator" style="animation-delay: 0.4s"></span>
             </span>
           </h2>
-          <p class="text-lg md:text-xl mb-12 max-w-2xl mx-auto opacity-80 theme-transition" id="hero-bio">Crafting robust, intelligent, and scalable solutions at the intersection of code and business logic. Specializing in backend development, data automation, and full-stack engineering.</p>
+          <p class="text-lg md:text-xl mb-12 max-w-2xl mx-auto opacity-80 theme-transition" id="hero-bio">Crafting digital experiences with cutting-edge technology. Specializing in full-stack development, scalable architectures, and innovative solutions.</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition gradient-bg text-white flex items-center justify-center" id="cta-projects">
-              <i class="fas fa-rocket mr-2 theme-icon-white"></i>View My Work
+            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition btn-primary flex items-center justify-center" id="cta-projects">
+              <i class="fas fa-rocket mr-2"></i>View My Work
             </button>
-            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition contact-btn border flex items-center justify-center" id="cta-contact">
-              <i class="fas fa-paper-plane mr-2 theme-icon"></i>Contact Us On
+            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition btn-secondary flex items-center justify-center" id="cta-contact">
+              <i class="fas fa-paper-plane mr-2"></i>Get In Touch
             </button>
           </div>
         </div>
@@ -392,9 +563,9 @@
       
       <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
         <div class="flex flex-col items-center">
-          <span class="text-sm opacity-70 mb-2 theme-icon">Scroll to explore</span>
-          <div class="w-6 h-10 scroll-indicator border-2 rounded-full flex justify-center">
-            <div class="w-1 h-3 scroll-indicator-dot rounded-full mt-2 floating"></div>
+          <span class="text-sm opacity-70 mb-2">Scroll to explore</span>
+          <div class="w-6 h-10 border-2 rounded-full flex justify-center theme-scroll-border">
+            <div class="w-1 h-3 rounded-full mt-2 floating theme-scroll-dot"></div>
           </div>
         </div>
       </div>
@@ -404,27 +575,31 @@
     <section class="py-20 px-6 theme-transition" id="about">
      <div class="max-w-6xl mx-auto">
       <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
-        <i class="fas fa-user mr-4 theme-icon"></i>About Me
+        <i class="fas fa-user theme-icon mr-4"></i>About Me
       </h2>
       <div class="grid md:grid-cols-2 gap-12 items-center">
        <div>
-        <p class="text-lg mb-6 opacity-90 theme-transition">Results-driven Software Engineer with over two years of experience in developing automation scripts, managing software implementations, and providing technical solutions. My passion lies in building backend systems and data pipelines that drive efficiency and insight.</p>
-        <p class="text-lg mb-6 opacity-90 theme-transition">I combine strong technical expertise with business acumen to bridge the gap between technology and end-users, delivering tailored software solutions that address real-world challenges.</p>
+        <p class="text-lg mb-6 opacity-90 theme-transition">With over 3 years of experience in software development, I've had the privilege of working with startups and established companies, building everything from mobile apps to distributed systems.</p>
+        <p class="text-lg mb-6 opacity-90 theme-transition">I believe in writing clean, maintainable code and am passionate about mentoring junior developers and contributing to open-source projects.</p>
         <div class="flex flex-wrap gap-3">
-          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
-            <i class="fas fa-code mr-2 theme-icon"></i>Backend Development
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center theme-tag">
+            <i class="fas fa-lightbulb theme-icon mr-2"></i>Problem Solver
           </span>
-          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
-            <i class="fas fa-database mr-2 theme-icon"></i>Data Automation
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center theme-tag">
+            <i class="fas fa-users theme-icon mr-2"></i>Team Player
           </span>
-          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
-            <i class="fas fa-cogs mr-2 theme-icon"></i>ERP Implementation
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center theme-tag">
+            <i class="fas fa-graduation-cap theme-icon mr-2"></i>Continuous Learner
           </span>
         </div>
        </div>
        <div class="flex justify-center">
-        <div class="w-80 h-80 rounded-2xl theme-transition flex items-center justify-center text-8xl gradient-bg relative overflow-hidden" id="avatar">
-          <i class="fas fa-laptop-code text-white relative z-10 theme-icon-white"></i>
+        <div class="image-container">
+          <img 
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+            alt="Brian Onsare - Software Engineer"
+            class="profile-image theme-transition"
+          />
         </div>
        </div>
       </div>
@@ -437,33 +612,33 @@
     <section class="py-20 px-6 theme-transition" id="skills">
      <div class="max-w-6xl mx-auto">
       <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
-        <i class="fas fa-cogs mr-4 theme-icon"></i>Technical Skills
+        <i class="fas fa-cogs theme-icon mr-4"></i>Technical Skills
       </h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
        <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-1">
         <div class="flex items-center mb-4">
           <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
-            <i class="fas fa-code text-white theme-icon-white"></i>
+            <i class="fas fa-desktop text-white"></i>
           </div>
-          <h3 class="text-xl font-semibold">Programming & Development</h3>
+          <h3 class="text-xl font-semibold">Frontend Development</h3>
         </div>
         <div class="space-y-4">
          <div>
-          <div class="flex justify-between mb-2"><span>Python</span> <span>92%</span></div>
+          <div class="flex justify-between mb-2"><span>React/Next.js</span> <span>95%</span></div>
           <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 92%"></div>
+           <div class="skill-progress" style="width: 95%"></div>
           </div>
          </div>
          <div>
-          <div class="flex justify-between mb-2"><span>SQL</span> <span>88%</span></div>
+          <div class="flex justify-between mb-2"><span>TypeScript</span> <span>90%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 90%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>Tailwind CSS</span> <span>88%</span></div>
           <div class="skill-bar theme-transition">
            <div class="skill-progress" style="width: 88%"></div>
-          </div>
-         </div>
-         <div>
-          <div class="flex justify-between mb-2"><span>HTML/CSS</span> <span>85%</span></div>
-          <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 85%"></div>
           </div>
          </div>
         </div>
@@ -471,27 +646,27 @@
        <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-2">
         <div class="flex items-center mb-4">
           <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
-            <i class="fas fa-server text-white theme-icon-white"></i>
+            <i class="fas fa-server text-white"></i>
           </div>
-          <h3 class="text-xl font-semibold">ERP & Business Systems</h3>
+          <h3 class="text-xl font-semibold">Backend Development</h3>
         </div>
         <div class="space-y-4">
          <div>
-          <div class="flex justify-between mb-2"><span>Odoo</span> <span>90%</span></div>
+          <div class="flex justify-between mb-2"><span>Node.js/Python</span> <span>92%</span></div>
           <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 90%"></div>
+           <div class="skill-progress" style="width: 92%"></div>
           </div>
          </div>
          <div>
-          <div class="flex justify-between mb-2"><span>SAP Business One</span> <span>85%</span></div>
-          <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 85%"></div>
-          </div>
-         </div>
-         <div>
-          <div class="flex justify-between mb-2"><span>CRM Systems</span> <span>88%</span></div>
+          <div class="flex justify-between mb-2"><span>Database Design</span> <span>88%</span></div>
           <div class="skill-bar theme-transition">
            <div class="skill-progress" style="width: 88%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>API Development</span> <span>90%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 90%"></div>
           </div>
          </div>
         </div>
@@ -499,27 +674,27 @@
        <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-3">
         <div class="flex items-center mb-4">
           <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
-            <i class="fas fa-chart-bar text-white theme-icon-white"></i>
+            <i class="fas fa-cloud text-white"></i>
           </div>
-          <h3 class="text-xl font-semibold">Data & Analytics</h3>
+          <h3 class="text-xl font-semibold">DevOps & Cloud</h3>
         </div>
         <div class="space-y-4">
          <div>
-          <div class="flex justify-between mb-2"><span>Power BI</span> <span>85%</span></div>
+          <div class="flex justify-between mb-2"><span>AWS/Docker</span> <span>85%</span></div>
           <div class="skill-bar theme-transition">
            <div class="skill-progress" style="width: 85%"></div>
           </div>
          </div>
          <div>
-          <div class="flex justify-between mb-2"><span>Excel Automation</span> <span>90%</span></div>
+          <div class="flex justify-between mb-2"><span>CI/CD</span> <span>80%</span></div>
           <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 90%"></div>
+           <div class="skill-progress" style="width: 80%"></div>
           </div>
          </div>
          <div>
-          <div class="flex justify-between mb-2"><span>Data Analysis</span> <span>87%</span></div>
+          <div class="flex justify-between mb-2"><span>Kubernetes</span> <span>75%</span></div>
           <div class="skill-bar theme-transition">
-           <div class="skill-progress" style="width: 87%"></div>
+           <div class="skill-progress" style="width: 75%"></div>
           </div>
          </div>
         </div>
@@ -534,60 +709,61 @@
     <section class="py-20 px-6 theme-transition" id="projects">
      <div class="max-w-6xl mx-auto">
       <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
-        <i class="fas fa-project-diagram mr-4 theme-icon"></i>Featured Projects
+        <i class="fas fa-project-diagram theme-icon mr-4"></i>Featured Projects
       </h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
        <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-1">
-        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
-          <i class="fas fa-laptop-code text-white relative z-10 theme-icon-white"></i>
+        <div class="h-48 gradient-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700"></div>
+          <i class="fas fa-brain text-white relative z-10 theme-emoji"></i>
         </div>
         <div class="p-6">
          <h3 class="text-xl font-semibold mb-3">TechWizSoln</h3>
-         <p class="opacity-80 mb-4">Your comprehensive technology partner, engineering cutting-edge digital solutions for businesses and individuals. We architect, automate, and innovate—delivering everything from custom software and data intelligence platforms to seamless IT infrastructure.</p>
+         <p class="opacity-80 mb-4">AI-powered business intelligence platform providing data-driven insights and automation solutions for modern enterprises.</p>
          <div class="flex flex-wrap gap-2 mb-4">
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Odoo</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Power BI</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">React</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Node.js</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">TensorFlow</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">MongoDB</span>
          </div>
-         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
-           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition btn-primary flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2"></i>View Project
          </button>
         </div>
        </div>
        <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-2">
-        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
-          <i class="fas fa-cogs text-white relative z-10 theme-icon-white"></i>
+        <div class="h-48 gradient-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700"></div>
+          <i class="fas fa-mobile-alt text-white relative z-10 theme-emoji"></i>
         </div>
         <div class="p-6">
-         <h3 class="text-xl font-semibold mb-3">ERP Implementation</h3>
-         <p class="opacity-80 mb-4">Custom Odoo and SAP Business One implementations for SMEs, translating business requirements into tailored software solutions with modules for CRM, Sales, and Inventory management.</p>
+         <h3 class="text-xl font-semibold mb-3">Mobile Task Manager</h3>
+         <p class="opacity-80 mb-4">Cross-platform mobile app for team collaboration and project management with offline sync.</p>
          <div class="flex flex-wrap gap-2 mb-4">
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Odoo</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SAP B1</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">React Native</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Firebase</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Redux</span>
          </div>
-         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
-           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition btn-primary flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2"></i>View Project
          </button>
         </div>
        </div>
        <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-3">
-        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
-          <i class="fas fa-chart-line text-white relative z-10 theme-icon-white"></i>
+        <div class="h-48 gradient-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700"></div>
+          <i class="fas fa-chart-line text-white relative z-10 theme-emoji"></i>
         </div>
         <div class="p-6">
-         <h3 class="text-xl font-semibold mb-3">Data Automation Platform</h3>
-         <p class="opacity-80 mb-4">Python-powered automation platform for business intelligence, streamlining reporting processes and enabling data-driven decision-making through custom scripts and Power BI integration.</p>
+         <h3 class="text-xl font-semibold mb-3">AI Analytics Dashboard</h3>
+         <p class="opacity-80 mb-4">Machine learning powered analytics platform with real-time data visualization and insights.</p>
          <div class="flex flex-wrap gap-2 mb-4">
            <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Power BI</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
-           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Excel VBA</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">TensorFlow</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">D3.js</span>
          </div>
-         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
-           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition btn-primary flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2"></i>View Project
          </button>
         </div>
        </div>
@@ -601,325 +777,44 @@
     <section class="py-20 px-6 theme-transition" id="contact">
      <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-4xl font-bold mb-8 gradient-text flex items-center justify-center">
-        <i class="fas fa-envelope mr-4 theme-icon"></i>Contact Us On
+        <i class="fas fa-envelope theme-icon mr-4"></i>Get In Touch
       </h2>
       <p class="text-xl mb-12 opacity-80">Let's discuss your next project or collaboration opportunity.</p>
-      <div class="grid md:grid-cols-4 gap-6 mb-12">
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
        <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-1">
         <div class="text-4xl mb-4 gradient-text">
-         <i class="fas fa-envelope theme-icon"></i>
+         <i class="fas fa-envelope theme-emoji"></i>
         </div>
         <h3 class="text-lg font-semibold mb-2">Email</h3>
-        <p class="opacity-80 text-sm">Brianairb200@gmail.com</p>
+        <p class="opacity-80">nyakababrian@gmail.com</p>
        </div>
        <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-2">
         <div class="text-4xl mb-4 gradient-text">
-         <i class="fas fa-phone theme-icon"></i>
+         <i class="fab fa-linkedin theme-emoji"></i>
         </div>
-        <h3 class="text-lg font-semibold mb-2">Phone</h3>
-        <p class="opacity-80 text-sm">+254 724 443 940</p>
+        <h3 class="text-lg font-semibold mb-2">LinkedIn</h3>
+        <p class="opacity-80">/in/brian-onsare-a0b813203</p>
        </div>
        <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-3">
         <div class="text-4xl mb-4 gradient-text">
-         <i class="fab fa-linkedin theme-icon"></i>
-        </div>
-        <h3 class="text-lg font-semibold mb-2">LinkedIn</h3>
-        <p class="opacity-80 text-sm">/in/brian-onsare</p>
-       </div>
-       <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-4">
-        <div class="text-4xl mb-4 gradient-text">
-         <i class="fab fa-github theme-icon"></i>
+         <i class="fab fa-github theme-emoji"></i>
         </div>
         <h3 class="text-lg font-semibold mb-2">GitHub</h3>
-        <p class="opacity-80 text-sm">github.com/BURA-1</p>
+        <p class="opacity-80">/BURA-1</p>
        </div>
       </div>
-      <button class="px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 theme-transition gradient-bg text-white flex items-center justify-center mx-auto" id="contact-cta">
-        <i class="fas fa-paper-plane mr-2 theme-icon-white"></i>Start a Conversation
+      <button class="px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 theme-transition btn-primary flex items-center justify-center mx-auto" id="contact-cta">
+        <i class="fas fa-paper-plane mr-2"></i>Start a Conversation
       </button>
      </div>
     </section>
   </main>
   
-  <footer class="py-8 px-6 text-center opacity-60 theme-transition" id="footer">
-   <p>© 2025 Brian Onsare. Crafted with passion and code.</p>
-  </footer>
-  
-  <script>
-    // Theme configurations
-    const themes = {
-      normal: {
-        background_color: '#0f0f1a',
-        surface_color: '#1a1a2e',
-        text_color: '#e2e8f0',
-        accent_color: '#6366f1',
-        secondary_color: '#8b5cf6'
-      },
-      dark: {
-        background_color: '#0f172a',
-        surface_color: '#1e293b',
-        text_color: '#f1f5f9',
-        accent_color: '#3b82f6',
-        secondary_color: '#8b5cf6'
-      },
-      nature: {
-        background_color: '#0f1f15',
-        surface_color: '#1a3224',
-        text_color: '#d1fae5',
-        accent_color: '#10b981',
-        secondary_color: '#34d399'
-      },
-      sunset: {
-        background_color: '#1f0f0f',
-        surface_color: '#321a1a',
-        text_color: '#fecaca',
-        accent_color: '#ef4444',
-        secondary_color: '#f97316'
-      },
-      ocean: {
-        background_color: '#0f1a1f',
-        surface_color: '#1a2d32',
-        text_color: '#bae6fd',
-        accent_color: '#06b6d4',
-        secondary_color: '#0ea5e9'
-      }
-    };
-
-    // Helper function to convert hex to RGB
-    function hexToRgb(hex) {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : null;
-    }
-
-    // Apply theme function
-    function applyTheme(themeName) {
-      const theme = themes[themeName];
-      if (!theme) return;
-
-      // Update CSS custom properties
-      document.documentElement.style.setProperty('--bg-color', theme.background_color);
-      document.documentElement.style.setProperty('--surface-color', theme.surface_color);
-      document.documentElement.style.setProperty('--text-color', theme.text_color);
-      document.documentElement.style.setProperty('--accent-color', theme.accent_color);
-      document.documentElement.style.setProperty('--secondary-color', theme.secondary_color);
-      
-      // Convert hex colors to RGB for rgba usage
-      const accentRgb = hexToRgb(theme.accent_color);
-      const surfaceRgb = hexToRgb(theme.surface_color);
-      
-      if (accentRgb) {
-        document.documentElement.style.setProperty('--accent-color-rgb', `${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}`);
-      }
-      
-      if (surfaceRgb) {
-        document.documentElement.style.setProperty('--surface-color-rgb', `${surfaceRgb.r}, ${surfaceRgb.g}, ${surfaceRgb.b}`);
-      }
-
-      // Update all icons
-      updateAllIcons(theme);
-      
-      // Update active states in color picker
-      updateColorPickerActiveStates(themeName);
-    }
-
-    // Function to apply custom color
-    function applyCustomColor(accentColor, secondaryColor) {
-      // Update CSS custom properties with custom colors
-      document.documentElement.style.setProperty('--accent-color', accentColor);
-      document.documentElement.style.setProperty('--secondary-color', secondaryColor);
-      
-      // Convert hex colors to RGB for rgba usage
-      const accentRgb = hexToRgb(accentColor);
-      const surfaceRgb = hexToRgb('#1a1a2e'); // Keep surface color consistent
-      
-      if (accentRgb) {
-        document.documentElement.style.setProperty('--accent-color-rgb', `${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}`);
-      }
-      
-      if (surfaceRgb) {
-        document.documentElement.style.setProperty('--surface-color-rgb', `${surfaceRgb.r}, ${surfaceRgb.g}, ${surfaceRgb.b}`);
-      }
-
-      // Update all icons
-      const theme = {
-        accent_color: accentColor,
-        secondary_color: secondaryColor
-      };
-      updateAllIcons(theme);
-      
-      // Update active states in color picker
-      updateColorPickerActiveStates('custom');
-    }
-
-    // Function to update all icons with theme colors
-    function updateAllIcons(theme) {
-      // Update theme-icon classes (accent color)
-      const themeIcons = document.querySelectorAll('.theme-icon');
-      themeIcons.forEach(icon => {
-        icon.style.color = theme.accent_color;
-      });
-
-      // Update theme-icon-secondary classes (secondary color)
-      const themeIconsSecondary = document.querySelectorAll('.theme-icon-secondary');
-      themeIconsSecondary.forEach(icon => {
-        icon.style.color = theme.secondary_color;
-      });
-
-      // Update theme-icon-white classes (white - for gradient backgrounds)
-      const themeIconsWhite = document.querySelectorAll('.theme-icon-white');
-      themeIconsWhite.forEach(icon => {
-        icon.style.color = '#ffffff';
-      });
-
-      // Update status dots
-      const statusDots = document.querySelectorAll('.status-dot');
-      if (statusDots.length >= 3) {
-        statusDots[0].style.backgroundColor = theme.accent_color;
-        statusDots[1].style.backgroundColor = theme.secondary_color;
-        statusDots[2].style.backgroundColor = theme.accent_color;
-      }
-
-      // Update scroll indicator
-      const scrollText = document.querySelector('.scroll-indicator + .flex span');
-      if (scrollText) {
-        scrollText.style.color = theme.accent_color;
-      }
-      
-      const scrollBorder = document.querySelector('.scroll-indicator');
-      if (scrollBorder) {
-        scrollBorder.style.borderColor = theme.accent_color;
-      }
-      
-      const scrollDot = document.querySelector('.scroll-indicator-dot');
-      if (scrollDot) {
-        scrollDot.style.backgroundColor = theme.accent_color;
-      }
-    }
-
-    // Function to update color picker active states
-    function updateColorPickerActiveStates(activeTheme) {
-      // Remove active class from all color options and preset themes
-      document.querySelectorAll('.color-option').forEach(option => {
-        option.classList.remove('active');
-      });
-      document.querySelectorAll('.preset-theme').forEach(theme => {
-        theme.classList.remove('active');
-      });
-      
-      // Add active class to current theme
-      if (activeTheme !== 'custom') {
-        const activePreset = document.querySelector(`.preset-theme[data-theme="${activeTheme}"]`);
-        if (activePreset) {
-          activePreset.classList.add('active');
-        }
-      }
-    }
-
-    // Theme selector event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      const themeButton = document.getElementById('theme-button');
-      const colorPicker = document.getElementById('color-picker');
-
-      // Toggle color picker
-      themeButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        colorPicker.style.display = colorPicker.style.display === 'none' ? 'block' : 'none';
-      });
-
-      // Close color picker when clicking outside
-      document.addEventListener('click', function() {
-        colorPicker.style.display = 'none';
-      });
-
-      // Prevent color picker from closing when clicking inside
-      colorPicker.addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-
-      // Color option click handlers
-      document.querySelectorAll('.color-option').forEach(option => {
-        option.addEventListener('click', function() {
-          const accentColor = this.getAttribute('data-color');
-          const secondaryColor = this.getAttribute('data-secondary');
-          applyCustomColor(accentColor, secondaryColor);
-          colorPicker.style.display = 'none';
-        });
-      });
-
-      // Preset theme click handlers
-      document.querySelectorAll('.preset-theme').forEach(theme => {
-        theme.addEventListener('click', function() {
-          const themeName = this.getAttribute('data-theme');
-          applyTheme(themeName);
-          colorPicker.style.display = 'none';
-        });
-      });
-
-      // Apply default theme
-      applyTheme('normal');
-
-      // Smooth scrolling for navigation
-      const navLinks = document.querySelectorAll('nav a[href^="#"]');
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
-      // CTA button actions
-      document.getElementById('cta-projects').addEventListener('click', function() {
-        document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('cta-contact').addEventListener('click', function() {
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('contact-cta').addEventListener('click', function() {
-        // Create a simple contact modal effect
-        const originalText = this.innerHTML;
-        this.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
-        this.style.backgroundColor = '#10b981';
-        setTimeout(() => {
-          this.innerHTML = originalText;
-          applyTheme('normal');
-        }, 2000);
-      });
-
-      // Animate skill bars on scroll
-      const observerOptions = {
-        threshold: 0.5
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const skillBars = entry.target.querySelectorAll('.skill-progress');
-            skillBars.forEach(bar => {
-              const width = bar.style.width;
-              bar.style.width = '0';
-              setTimeout(() => {
-                bar.style.width = width;
-              }, 300);
-            });
-          }
-        });
-      }, observerOptions);
-
-      const skillSections = document.querySelectorAll('#skill-card-1, #skill-card-2, #skill-card-3');
-      skillSections.forEach(section => {
-        observer.observe(section);
-      });
-    });
-  </script>
-</body>
-</html>
+  <!-- AI Assistant -->
+  <div class="ai-assistant">
+    <div class="ai-toggle" onclick="toggleAIChat()">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="ai-chat" id="ai-chat">
+      <div class="ai-header">
+        <h3><span class="ai-status"></span> NexusAI Assistant</
