@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusTech | AI-Powered Business Solutions</title>
+    <style>
+        :root {
+            --bg-primary-dark: #0a0a0a;
+            --bg-secondary-dark: #1a1a1a;
+            --bg-accent-dark: #2a2a2a;
+            --text-primary-dark: #ffffff;
+            --text-secondary-dark: #a0a0a0;
+            
+            --bg-primary-light: #ffffff;
+            --bg-secondary-light: #f8f9fa;
+            --bg-accent-light: #e9ecef;
+            --text-primary-light: #212529;
+            --text-secondary-light: #6c757d;
+            
+            --accent-primary: #3a86ff;
+            --accent-secondary: #8338ec;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --gradient-primary: linear-gradient(135deg, #3a86ff 0%, #8338ec 100%);
+            --gradient-secondary: linear-gradient(135deg, #8338ec 0%, #ff006e 100%);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 12px;
+            --glow: 0 0 15px rgba(58, 134, 255, 0.5);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --bg-accent: var(--bg-accent-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            --border-color: rgba(58, 134, 255, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --bg-accent: var(--bg-accent-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --gradient-dark: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --border-color: rgba(58, 134, 255, 0.3);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            filter: brightness(0.4);
+        }
+
+        .background-image.active {
+            opacity: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(var(--bg-primary), 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+            background: rgba(58, 134, 255, 0.1);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Updated AI Chat Button - Matching NexusTech Logo */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .ai-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .ai-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(58, 134, 255, 0.6);
+        }
+
+        /* AI Chat */
+        .ai-chat {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .ai-chat.active {
+            display: flex;
+        }
+
+        .ai-header {
+            padding: 20px;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: blink 2s infinite;
+        }
+
+        .ai-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .ai-messages {
+            flex: 1;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .message.user {
+            background: var(--gradient-primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.ai-link {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message.ai-link:hover {
+            background: rgba(58, 134, 255, 0.1);
+        }
+
+        .ai-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.1);
+        }
+
+        .send-btn {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .send-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+            line-height: 1.1;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Updated Button Styles - All Transparent */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid var(--accent-primary);
+            font-size: 1rem;
+            background: transparent;
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(var(--bg-primary), 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Form Styles */
+        .form-container {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--bg-accent);
+            border-radius: var(--border-radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Updated Form Buttons */
+        .form-container .btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Dynamic Form Fields */
+        .dynamic-field {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .dynamic-field.active {
+            display: block;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--success);
+        }
+
+        .success-message.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--success);
+        }
+
+        /* Background Controls */
+        .bg-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .bg-control-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .bg-control-btn:hover {
+            background: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(58, 134, 255, 0.7);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(58, 134, 255, 0);
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1rem 4rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-chat {
+                width: calc(100% - 2rem);
+                right: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .bg-controls {
+                bottom: 1rem;
+                left: 1rem;
+            }
+
+            .ai-assistant {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Background Images -->
+    <div class="background-container" id="background-container">
+        <!-- Replace these placeholder URLs with your actual image URLs -->
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" class="background-image active" alt="Tech Background 1">
+        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 2">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 3">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 4">
+        <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 5">
+    </div>
+
+    <!-- Background Controls -->
+    <div class="bg-controls">
+        <button class="bg-control-btn" onclick="previousBackground()">◀</button>
+        <button class="bg-control-btn" onclick="toggleBackgroundRotation()">⏯️</button>
+        <button class="bg-control-btn" onclick="nextBackground()">▶</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">NexusTech</a>
+            <ul class="nav-menu">
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#ticketing" class="nav-link">Get Support</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Business With AI</h1>
+            <p class="subtitle">NexusTech delivers cutting-edge AI solutions that drive innovation, efficiency, and growth for forward-thinking enterprises.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('services')">Explore Solutions</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('ticketing')">Get Support</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">We offer a comprehensive suite of AI-powered solutions tailored to your business needs</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3 class="service-name">AI Strategy & Consulting</h3>
+                <p class="service-description">Develop a comprehensive AI roadmap aligned with your business objectives and digital transformation goals.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧠</div>
+                <h3 class="service-name">Machine Learning Solutions</h3>
+                <p class="service-description">Build custom ML models that analyze data, predict trends, and automate complex decision-making processes.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💬</div>
+                <h3 class="service-name">Intelligent Chatbots</h3>
+                <p class="service-description">Deploy AI-powered conversational agents that enhance customer service and streamline operations.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3 class="service-name">Data Analytics & Insights</h3>
+                <p class="service-description">Transform raw data into actionable intelligence with advanced analytics and visualization tools.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚙️</div>
+                <h3 class="service-name">Process Automation</h3>
+                <p class="service-description">Automate repetitive tasks and workflows to increase efficiency and reduce operational costs.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3 class="service-name">AI Security Solutions</h3>
+                <p class="service-description">Protect your digital assets with AI-powered threat detection and cybersecurity systems.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="section">
+        <h2 class="section-title">Industry Solutions</h2>
+        <p class="section-subtitle">Tailored AI implementations for specific industry challenges and opportunities</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏥</div>
+                <h3 class="service-name">Healthcare</h3>
+                <p class="service-description">AI-powered diagnostics, patient monitoring, and drug discovery solutions.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏦</div>
+                <h3 class="service-name">Finance</h3>
+                <p class="service-description">Fraud detection, algorithmic trading, and personalized banking experiences.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛒</div>
+                <h3 class="service-name">Retail</h3>
+                <p class="service-description">Personalized recommendations, inventory optimization, and customer insights.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title">About NexusTech</h2>
+        <p class="section-subtitle">Pioneering the future of business through artificial intelligence</p>
+        <div class="form-container">
+            <h3 style="margin-bottom: 1.5rem; color: var(--accent-primary);">Our Mission</h3>
+            <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+                At NexusTech, we believe that artificial intelligence represents the next frontier in business transformation. 
+                Our mission is to democratize AI technology, making it accessible and actionable for organizations of all sizes.
+            </p>
+            <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Our Story</h3>
+            <p style="line-height: 1.7;">
+                Founded in 2018 by a team of AI researchers and industry experts, NexusTech has grown to become a leading provider 
+                of enterprise AI solutions. We've successfully delivered over 200 projects across 15 industries, helping our clients 
+                unlock new opportunities and achieve measurable business outcomes.
+            </p>
+        </div>
+    </section>
+
+    <!-- Ticketing System -->
+    <section id="ticketing" class="section">
+        <h2 class="section-title">Get Support</h2>
+        <p class="section-subtitle">Select the type of assistance you need and provide relevant details for faster resolution</p>
+
+        <div class="form-container">
+            <div id="success-message" class="success-message">
+                <div class="success-icon">✅</div>
+                <h3>Ticket Submitted Successfully!</h3>
+                <p>Thank you for your submission. Our team will review your request and get back to you within 24 hours.</p>
+                <button class="btn btn-primary" onclick="resetForm()" style="margin-top: 1.5rem;">Submit Another Request</button>
+            </div>
+
+            <form id="ticket-form">
+                <div class="form-group">
+                    <label class="form-label" for="ticket-type">Request Type *</label>
+                    <select id="ticket-type" class="form-select" required onchange="updateFormFields()">
+                        <option value="">Select a request type</option>
+                        <option value="consultation">AI Consultation</option>
+                        <option value="project">Project Proposal</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="ticket-name">Full Name *</label>
+                        <input type="text" id="ticket-name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ticket-company">Company/Organization</label>
+                        <input type="text" id="ticket-company" class="form-input" placeholder="Enter your company name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="ticket-email">Email Address *</label>
+                        <input type="email" id="ticket-email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ticket-phone">Phone Number</label>
+                        <input type="tel" id="ticket-phone" class="form-input" placeholder="Enter your phone number">
+                    </div>
+                </div>
+
+                <!-- Consultation Fields -->
+                <div id="consultation-fields" class="dynamic-field">
+                    <div class="form-group">
+                        <label class="form-label" for="consultation-industry">Industry *</label>
+                        <select id="consultation-industry" class="form-select" required>
+                            <option value="">Select your industry</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="finance">Finance & Banking</option>
+                            <option value="retail">Retail & E-commerce</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="technology">Technology</option>
+                            <option value="education">Education</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="consultation-objectives">Business Objectives *</label>
+                        <textarea id="consultation-objectives" class="form-textarea" placeholder="Describe your primary business goals and challenges you hope to address with AI"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="consultation-timeline">Desired Timeline</label>
+                        <select id="consultation-timeline" class="form-select">
+                            <option value="">Select timeline</option>
+                            <option value="immediate">Immediate (within 1 month)</option>
+                            <option value="short-term">Short-term (1-3 months)</option>
+                            <option value="medium-term">Medium-term (3-6 months)</option>
+                            <option value="long-term">Long-term (6+ months)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Project Fields -->
+                <div id="project-fields" class="dynamic-field">
+                    <div class="form-group">
+                        <label class="form-label" for="project-type">Project Type *</label>
+                        <select id="project-type" class="form-select" required>
+                            <option value="">Select project type</option>
+                            <option value="custom-ai">Custom AI Solution</option>
+                            <option value="ml-model">Machine Learning Model</option>
+                            <option value="process-automation">Process Automation</option>
+                            <option value="data-analytics">Data Analytics & BI</option>
+                            <option value="chatbot">AI Chatbot Implementation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-description">Project Description *</label>
+                        <textarea id="project-description" class="form-textarea" placeholder="Describe your project requirements, goals, and specific challenges"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="project-budget">Estimated Budget</label>
+                            <select id="project-budget" class="form-select">
+                                <option value="">Select budget range</option>
+                                <option value="5k-15k">$5,000 - $15,000</option>
+                                <option value="15k-50k">$15,000 - $50,000</option>
+                                <option value="50k-100k">$50,000 - $100,000</option>
+                                <option value="100k+">$100,000+</option>
+                                <option value="not-sure">Not sure / Need consultation</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="project-timeline">Project Timeline</label>
+                            <select id="project-timeline" class="form-select">
+                                <option value="">Select timeline</option>
+                                <option value="1-3">1-3 months</option>
+                                <option value="3-6">3-6 months</option>
+                                <option value="6-12">6-12 months</option>
+                                <option value="12+">12+ months</option>
+                                <option value="not-sure">Not sure / Need consultation</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Support Fields -->
+                <div id="technical-fields" class="dynamic-field">
+                    <div class="form-group">
+                        <label class="form-label" for="technical-product">Product/Service *</label>
+                        <select id="technical-product" class="form-select" required>
+                            <option value="">Select product/service</option>
+                            <option value="nexus-ai-platform">Nexus AI Platform</option>
+                            <option value="custom-solution">Custom AI Solution</option>
+                            <option value="ml-model">Machine Learning Model</option>
+                            <option value="chatbot">AI Chatbot</option>
+                            <option value="data-analytics">Data Analytics Dashboard</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="technical-issue">Issue Description *</label>
+                        <textarea id="technical-issue" class="form-textarea" placeholder="Describe the issue you're experiencing, including error messages and steps to reproduce"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="technical-urgency">Urgency Level</label>
+                        <select id="technical-urgency" class="form-select">
+                            <option value="low">Low - General inquiry</option>
+                            <option value="medium" selected>Medium - Affecting some functionality</option>
+                            <option value="high">High - Critical functionality impacted</option>
+                            <option value="critical">Critical - System down or major outage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Partnership Fields -->
+                <div id="partnership-fields" class="dynamic-field">
+                    <div class="form-group">
+                        <label class="form-label" for="partnership-type">Partnership Type *</label>
+                        <select id="partnership-type" class="form-select" required>
+                            <option value="">Select partnership type</option>
+                            <option value="technology">Technology Integration</option>
+                            <option value="reseller">Reseller Partnership</option>
+                            <option value="joint-venture">Joint Venture</option>
+                            <option value="strategic">Strategic Alliance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="partnership-description">Partnership Proposal *</label>
+                        <textarea id="partnership-description" class="form-textarea" placeholder="Describe your partnership proposal and potential synergies"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="partnership-goals">Expected Outcomes</label>
+                        <textarea id="partnership-goals" class="form-textarea" placeholder="What are your goals for this partnership?"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="additional-notes">Additional Notes</label>
+                    <textarea id="additional-notes" class="form-textarea" placeholder="Any other information you'd like to share"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 NexusTech. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Careers</a>
+                <a href="#" class="footer-link">Blog</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-toggle" onclick="toggleAIChat()">
+            💬
+        </div>
+        <div class="ai-chat" id="ai-chat">
+            <div class="ai-header">
+                <h3><span class="ai-status"></span> NexusAI Assistant</h3>
+                <button class="ai-close" onclick="toggleAIChat()">✕</button>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="message ai">
+                    Hello! I'm NexusAI, your virtual assistant. How can I help you today?
+                </div>
+                <div class="message ai ai-link" onclick="aiNavigateTo('services')">
+                    I can tell you about our AI services and solutions.
+                </div>
+                <div class="message ai ai-link" onclick="aiNavigateTo('ticketing')">
+                    I can help you get support or submit a request.
+                </div>
+            </div>
+            <div class="ai-input">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Type your message...">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            
+            // Update theme toggle button
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Initialize theme from localStorage
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            // Update theme toggle button
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        }
+
+        // Background Image Management
+        let currentBackgroundIndex = 0;
+        let backgroundRotationInterval = null;
+        const backgroundImages = document.querySelectorAll('.background-image');
+        const totalBackgrounds = backgroundImages.length;
+
+        function showBackground(index) {
+            // Hide all backgrounds
+            backgroundImages.forEach(img => img.classList.remove('active'));
+            
+            // Show the selected background
+            backgroundImages[index].classList.add('active');
+            currentBackgroundIndex = index;
+        }
+
+        function nextBackground() {
+            let nextIndex = (currentBackgroundIndex + 1) % totalBackgrounds;
+            showBackground(nextIndex);
+        }
+
+        function previousBackground() {
+            let prevIndex = (currentBackgroundIndex - 1 + totalBackgrounds) % totalBackgrounds;
+            showBackground(prevIndex);
+        }
+
+        function toggleBackgroundRotation() {
+            if (backgroundRotationInterval) {
+                clearInterval(backgroundRotationInterval);
+                backgroundRotationInterval = null;
+            } else {
+                backgroundRotationInterval = setInterval(nextBackground, 5000);
+            }
+        }
+
+        // Initialize background rotation
+        function initializeBackgrounds() {
+            // Start with the first background
+            showBackground(0);
+            
+            // Start automatic rotation
+            toggleBackgroundRotation();
+        }
+
+        // Smooth Scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // AI Chat Functionality
+        function toggleAIChat() {
+            const aiChat = document.getElementById('ai-chat');
+            aiChat.classList.toggle('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messagesContainer = document.getElementById('ai-messages');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = message;
+            messagesContainer.appendChild(userMessage);
+            
+            // Clear input
+            input.value = '';
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Simulate AI response after a short delay
+            setTimeout(() => {
+                const aiResponse = getAIResponse(message);
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai';
+                aiMessage.textContent = aiResponse;
+                messagesContainer.appendChild(aiMessage);
+                
+                // Scroll to bottom again
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
+
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('service') || lowerMessage.includes('solution')) {
+                return "We offer a range of AI services including AI strategy, machine learning solutions, intelligent chatbots, data analytics, process automation, and AI security. Would you like me to direct you to our services section?";
+            } else if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('issue')) {
+                return "I can help you get the right support. We offer AI consultations, project proposals, technical support, and partnership inquiries. Would you like me to direct you to our support section?";
+            } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('budget')) {
+                return "Our pricing depends on the scope and complexity of your project. We offer customized solutions tailored to your specific needs and budget. Would you like to submit a project request for a detailed quote?";
+            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "Hello! I'm NexusAI, your virtual assistant. How can I help you learn more about our AI solutions today?";
+            } else {
+                return "I'm here to help you learn more about NexusTech's AI solutions. You can ask me about our services or how to get support for your specific needs.";
+            }
+        }
+
+        function aiNavigateTo(section) {
+            scrollToSection(section);
+            toggleAIChat();
+        }
+
+        // Update form fields based on ticket type selection
+        function updateFormFields() {
+            const ticketType = document.getElementById('ticket-type').value;
+            const dynamicFields = document.querySelectorAll('.dynamic-field');
+            
+            // Hide all dynamic fields
+            dynamicFields.forEach(field => field.classList.remove('active'));
+            
+            // Show the relevant dynamic fields
+            if (ticketType) {
+                document.getElementById(`${ticketType}-fields`).classList.add('active');
+            }
+        }
+
+        // Form Submission
+        function initializeFormSubmission() {
+            const form = document.getElementById('ticket-form');
+            const successMessage = document.getElementById('success-message');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get the selected ticket type
+                const ticketType = document.getElementById('ticket-type').value;
+                
+                // Basic validation
+                const name = document.getElementById('ticket-name').value;
+                const email = document.getElementById('ticket-email').value;
+                
+                if (!name || !email || !ticketType) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Additional validation based on ticket type
+                let isValid = true;
+                let errorMessage = '';
+                
+                if (ticketType === 'consultation') {
+                    const industry = document.getElementById('consultation-industry').value;
+                    const objectives = document.getElementById('consultation-objectives').value;
+                    
+                    if (!industry || !objectives) {
+                        isValid = false;
+                        errorMessage = 'Please fill in all required consultation fields.';
+                    }
+                } else if (ticketType === 'project') {
+                    const projectType = document.getElementById('project-type').value;
+                    const description = document.getElementById('project-description').value;
+                    
+                    if (!projectType || !description) {
+                        isValid = false;
+                        errorMessage = 'Please fill in all required project fields.';
+                    }
+                } else if (ticketType === 'technical') {
+                    const product = document.getElementById('technical-product').value;
+                    const issue = document.getElementById('technical-issue').value;
+                    
+                    if (!product || !issue) {
+                        isValid = false;
+                        errorMessage = 'Please fill in all required technical support fields.';
+                    }
+                } else if (ticketType === 'partnership') {
+                    const partnershipType = document.getElementById('partnership-type').value;
+                    const description = document.getElementById('partnership-description').value;
+                    
+                    if (!partnershipType || !description) {
+                        isValid = false;
+                        errorMessage = 'Please fill in all required partnership fields.';
+                    }
+                }
+                
+                if (!isValid) {
+                    alert(errorMessage);
+                    return;
+                }
+                
+                // In a real application, you would send this data to a server
+                // For now, we'll just show the success message
+                form.style.display = 'none';
+                successMessage.classList.add('active');
+            });
+        }
+
+        function resetForm() {
+            const form = document.getElementById('ticket-form');
+            const successMessage = document.getElementById('success-message');
+            
+            // Reset form display
+            form.style.display = 'block';
+            successMessage.classList.remove('active');
+            
+            // Reset form fields
+            form.reset();
+            
+            // Hide all dynamic fields
+            const dynamicFields = document.querySelectorAll('.dynamic-field');
+            dynamicFields.forEach(field => field.classList.remove('active'));
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeBackgrounds();
+            initializeFormSubmission();
+            
+            // Add Enter key support for AI chat
+            document.getElementById('chat-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    scrollToSection(targetId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
