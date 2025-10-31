@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechWizSoln | AI-Powered Business Solutions</title>
+    <title>TechWizSoln | Software Engineering & Automation Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -141,15 +141,15 @@
             gap: 1rem;
         }
 
-        /* Universal AI Chat Button - Responsive and Accessible */
-        .ai-assistant {
+        /* Universal Assistant Button - Responsive and Accessible */
+        .assistant {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
         }
 
-        .ai-toggle {
+        .assistant-toggle {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -169,7 +169,7 @@
             overflow: hidden;
         }
 
-        .ai-toggle::before {
+        .assistant-toggle::before {
             content: '';
             position: absolute;
             top: 0;
@@ -181,22 +181,22 @@
             z-index: -1;
         }
 
-        .ai-toggle:hover {
+        .assistant-toggle:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 25px rgba(58, 134, 255, 0.6);
         }
 
-        .ai-toggle:active {
+        .assistant-toggle:active {
             transform: scale(0.95);
         }
 
-        .ai-toggle:focus {
+        .assistant-toggle:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.3);
         }
 
-        /* AI Chat */
-        .ai-chat {
+        /* Assistant Chat */
+        .assistant-chat {
             position: absolute;
             bottom: 80px;
             right: 0;
@@ -213,11 +213,11 @@
             z-index: 1001;
         }
 
-        .ai-chat.active {
+        .assistant-chat.active {
             display: flex;
         }
 
-        .ai-header {
+        .assistant-header {
             padding: 20px;
             background: var(--gradient-primary);
             color: white;
@@ -226,7 +226,7 @@
             align-items: center;
         }
 
-        .ai-header h3 {
+        .assistant-header h3 {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -234,7 +234,7 @@
             font-size: 1.1rem;
         }
 
-        .ai-status {
+        .assistant-status {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -242,7 +242,7 @@
             animation: blink 2s infinite;
         }
 
-        .ai-close {
+        .assistant-close {
             background: none;
             border: none;
             color: white;
@@ -253,16 +253,16 @@
             transition: var(--transition);
         }
 
-        .ai-close:hover {
+        .assistant-close:hover {
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .ai-close:focus {
+        .assistant-close:focus {
             outline: none;
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
         }
 
-        .ai-messages {
+        .assistant-messages {
             flex: 1;
             padding: 20px;
             max-height: 300px;
@@ -287,13 +287,13 @@
             border-bottom-right-radius: 5px;
         }
 
-        .message.ai {
+        .message.assistant {
             background: rgba(255, 255, 255, 0.1);
             align-self: flex-start;
             border-bottom-left-radius: 5px;
         }
 
-        .message.ai-link {
+        .message.assistant-link {
             background: rgba(255, 255, 255, 0.1);
             align-self: flex-start;
             border-bottom-left-radius: 5px;
@@ -301,11 +301,11 @@
             transition: var(--transition);
         }
 
-        .message.ai-link:hover {
+        .message.assistant-link:hover {
             background: rgba(58, 134, 255, 0.1);
         }
 
-        .ai-input {
+        .assistant-input {
             display: flex;
             padding: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -744,7 +744,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .ai-chat {
+            .assistant-chat {
                 width: calc(100vw - 40px);
                 right: 20px;
                 max-width: none;
@@ -759,41 +759,41 @@
                 left: 1rem;
             }
 
-            .ai-assistant {
+            .assistant {
                 bottom: 1rem;
                 right: 1rem;
             }
 
-            .ai-toggle {
+            .assistant-toggle {
                 width: 55px;
                 height: 55px;
                 font-size: 1.3rem;
             }
 
-            .ai-chat {
+            .assistant-chat {
                 bottom: 70px;
             }
         }
 
         @media (max-width: 480px) {
-            .ai-toggle {
+            .assistant-toggle {
                 width: 50px;
                 height: 50px;
                 font-size: 1.2rem;
             }
 
-            .ai-chat {
+            .assistant-chat {
                 width: calc(100vw - 30px);
                 right: 15px;
                 bottom: 65px;
             }
 
-            .ai-messages {
+            .assistant-messages {
                 max-height: 250px;
                 padding: 15px;
             }
 
-            .ai-input {
+            .assistant-input {
                 padding: 10px;
             }
 
@@ -812,26 +812,26 @@
 
         /* Touch device optimizations */
         @media (hover: none) and (pointer: coarse) {
-            .ai-toggle:hover {
+            .assistant-toggle:hover {
                 transform: scale(1);
             }
 
-            .ai-toggle:active {
+            .assistant-toggle:active {
                 transform: scale(0.95);
             }
 
-            .message.ai-link:active {
+            .message.assistant-link:active {
                 background: rgba(58, 134, 255, 0.2);
             }
         }
 
         /* High contrast mode support */
         @media (prefers-contrast: high) {
-            .ai-toggle {
+            .assistant-toggle {
                 border: 2px solid white;
             }
 
-            .ai-chat {
+            .assistant-chat {
                 border: 2px solid var(--accent-primary);
             }
         }
@@ -844,11 +844,11 @@
                 transition-duration: 0.01ms !important;
             }
 
-            .ai-toggle {
+            .assistant-toggle {
                 animation: none;
             }
 
-            .ai-status {
+            .assistant-status {
                 animation: none;
             }
         }
@@ -891,8 +891,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Transform Your Business With AI</h1>
-            <p class="subtitle">TechWizSoln delivers cutting-edge AI solutions that drive innovation, efficiency, and growth for forward-thinking enterprises.</p>
+            <h1>Revolutionize Your Business With Software Engineering</h1>
+            <p class="subtitle">TechWizSoln delivers cutting-edge software engineering and automation solutions that drive innovation, efficiency, and growth for forward-thinking enterprises.</p>
             <div class="hero-buttons">
                 <button class="btn btn-primary" onclick="scrollToSection('services')">Explore Solutions</button>
                 <button class="btn btn-secondary" onclick="scrollToSection('ticketing')">Get Support</button>
@@ -903,26 +903,26 @@
     <!-- Services Section -->
     <section id="services" class="section">
         <h2 class="section-title">Our Services</h2>
-        <p class="section-subtitle">We offer a comprehensive suite of AI-powered solutions tailored to your business needs</p>
+        <p class="section-subtitle">We offer a comprehensive suite of software engineering and automation solutions tailored to your business needs</p>
         <div class="services-grid">
             <div class="service-card">
+                <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3 class="service-name">Software Engineering & Consulting</h3>
+                <p class="service-description">Develop comprehensive software roadmaps aligned with your business objectives and digital transformation goals.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-code"></i></div>
+                <h3 class="service-name">Custom Software Development</h3>
+                <p class="service-description">Build custom software solutions that analyze data, predict trends, and automate complex decision-making processes.</p>
+            </div>
+            <div class="service-card">
                 <div class="service-icon"><i class="fas fa-robot"></i></div>
-                <h3 class="service-name">AI Strategy & Consulting</h3>
-                <p class="service-description">Develop a comprehensive AI roadmap aligned with your business objectives and digital transformation goals.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-brain"></i></div>
-                <h3 class="service-name">Machine Learning Solutions</h3>
-                <p class="service-description">Build custom ML models that analyze data, predict trends, and automate complex decision-making processes.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-comments"></i></div>
-                <h3 class="service-name">Intelligent Chatbots</h3>
-                <p class="service-description">Deploy AI-powered conversational agents that enhance customer service and streamline operations.</p>
+                <h3 class="service-name">Intelligent Automation</h3>
+                <p class="service-description">Deploy automation solutions that enhance customer service and streamline operations across your organization.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-chart-bar"></i></div>
-                <h3 class="service-name">Data Analytics & Insights</h3>
+                <h3 class="service-name">Data Engineering & Analytics</h3>
                 <p class="service-description">Transform raw data into actionable intelligence with advanced analytics and visualization tools.</p>
             </div>
             <div class="service-card">
@@ -932,8 +932,8 @@
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
-                <h3 class="service-name">AI Security Solutions</h3>
-                <p class="service-description">Protect your digital assets with AI-powered threat detection and cybersecurity systems.</p>
+                <h3 class="service-name">Software Security Solutions</h3>
+                <p class="service-description">Protect your digital assets with advanced security systems and secure coding practices.</p>
             </div>
         </div>
     </section>
@@ -941,22 +941,22 @@
     <!-- Solutions Section -->
     <section id="solutions" class="section">
         <h2 class="section-title">Industry Solutions</h2>
-        <p class="section-subtitle">Tailored AI implementations for specific industry challenges and opportunities</p>
+        <p class="section-subtitle">Tailored software engineering implementations for specific industry challenges and opportunities</p>
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-hospital"></i></div>
                 <h3 class="service-name">Healthcare</h3>
-                <p class="service-description">AI-powered diagnostics, patient monitoring, and drug discovery solutions.</p>
+                <p class="service-description">Software solutions for diagnostics, patient monitoring, and healthcare system automation.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-university"></i></div>
                 <h3 class="service-name">Finance</h3>
-                <p class="service-description">Fraud detection, algorithmic trading, and personalized banking experiences.</p>
+                <p class="service-description">Fraud detection systems, trading platforms, and personalized banking experiences.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-shopping-cart"></i></div>
                 <h3 class="service-name">Retail</h3>
-                <p class="service-description">Personalized recommendations, inventory optimization, and customer insights.</p>
+                <p class="service-description">Personalized recommendations, inventory optimization, and customer insights platforms.</p>
             </div>
         </div>
     </section>
@@ -964,17 +964,17 @@
     <!-- About Section -->
     <section id="about" class="section">
         <h2 class="section-title">About TechWizSoln</h2>
-        <p class="section-subtitle">Pioneering the future of business through artificial intelligence</p>
+        <p class="section-subtitle">Pioneering the future of business through software engineering and automation</p>
         <div class="form-container">
             <h3 style="margin-bottom: 1.5rem; color: var(--accent-primary);">Our Mission</h3>
             <p style="margin-bottom: 1.5rem; line-height: 1.7;">
-                At TechWizSoln, we believe that artificial intelligence represents the next frontier in business transformation. 
-                Our mission is to democratize AI technology, making it accessible and actionable for organizations of all sizes.
+                At TechWizSoln, we believe that software engineering and automation represent the next frontier in business transformation. 
+                Our mission is to democratize advanced technology, making it accessible and actionable for organizations of all sizes.
             </p>
             <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Our Story</h3>
             <p style="line-height: 1.7;">
-                Founded in 2018 by a team of AI researchers and industry experts, TechWizSoln has grown to become a leading provider 
-                of enterprise AI solutions. We've successfully delivered over 200 projects across 15 industries, helping our clients 
+                Founded in 2018 by a team of software engineers and industry experts, TechWizSoln has grown to become a leading provider 
+                of enterprise software solutions. We've successfully delivered over 200 projects across 15 industries, helping our clients 
                 unlock new opportunities and achieve measurable business outcomes.
             </p>
         </div>
@@ -998,7 +998,7 @@
                     <label class="form-label" for="ticket-type">Request Type *</label>
                     <select id="ticket-type" class="form-select" required onchange="updateFormFields()">
                         <option value="">Select a request type</option>
-                        <option value="consultation">AI Consultation</option>
+                        <option value="consultation">Software Engineering Consultation</option>
                         <option value="project">Project Proposal</option>
                         <option value="technical">Technical Support</option>
                         <option value="partnership">Partnership Inquiry</option>
@@ -1043,7 +1043,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="consultation-objectives">Business Objectives *</label>
-                        <textarea id="consultation-objectives" class="form-textarea" placeholder="Describe your primary business goals and challenges you hope to address with AI"></textarea>
+                        <textarea id="consultation-objectives" class="form-textarea" placeholder="Describe your primary business goals and challenges you hope to address with software engineering"></textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="consultation-timeline">Desired Timeline</label>
@@ -1063,11 +1063,11 @@
                         <label class="form-label" for="project-type">Project Type *</label>
                         <select id="project-type" class="form-select" required>
                             <option value="">Select project type</option>
-                            <option value="custom-ai">Custom AI Solution</option>
-                            <option value="ml-model">Machine Learning Model</option>
-                            <option value="process-automation">Process Automation</option>
+                            <option value="custom-software">Custom Software Solution</option>
+                            <option value="automation">Process Automation</option>
                             <option value="data-analytics">Data Analytics & BI</option>
-                            <option value="chatbot">AI Chatbot Implementation</option>
+                            <option value="mobile-app">Mobile Application</option>
+                            <option value="web-platform">Web Platform</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
@@ -1107,10 +1107,9 @@
                         <label class="form-label" for="technical-product">Product/Service *</label>
                         <select id="technical-product" class="form-select" required>
                             <option value="">Select product/service</option>
-                            <option value="techwiz-ai-platform">TechWiz AI Platform</option>
-                            <option value="custom-solution">Custom AI Solution</option>
-                            <option value="ml-model">Machine Learning Model</option>
-                            <option value="chatbot">AI Chatbot</option>
+                            <option value="techwiz-platform">TechWiz Software Platform</option>
+                            <option value="custom-solution">Custom Software Solution</option>
+                            <option value="automation-system">Automation System</option>
                             <option value="data-analytics">Data Analytics Dashboard</option>
                             <option value="other">Other</option>
                         </select>
@@ -1176,28 +1175,28 @@
         </div>
     </footer>
 
-    <!-- Universal AI Assistant -->
-    <div class="ai-assistant">
-        <button class="ai-toggle" onclick="toggleAIChat()" aria-label="Open AI Chat Assistant" title="Chat with TechWizAI">
-            <i class="fas fa-robot"></i>
+    <!-- Universal Assistant -->
+    <div class="assistant">
+        <button class="assistant-toggle" onclick="toggleAssistantChat()" aria-label="Open Assistant" title="Chat with TechWiz Assistant">
+            <i class="fas fa-headset"></i>
         </button>
-        <div class="ai-chat" id="ai-chat">
-            <div class="ai-header">
-                <h3><span class="ai-status"></span> TechWizAI Assistant</h3>
-                <button class="ai-close" onclick="toggleAIChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+        <div class="assistant-chat" id="assistant-chat">
+            <div class="assistant-header">
+                <h3><span class="assistant-status"></span> TechWiz Assistant</h3>
+                <button class="assistant-close" onclick="toggleAssistantChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
             </div>
-            <div class="ai-messages" id="ai-messages">
-                <div class="message ai">
-                    Hello! I'm TechWizAI, your virtual assistant. How can I help you today?
+            <div class="assistant-messages" id="assistant-messages">
+                <div class="message assistant">
+                    Hello! I'm the TechWiz Assistant. How can I help you today?
                 </div>
-                <div class="message ai ai-link" onclick="aiNavigateTo('services')">
-                    I can tell you about our AI services and solutions.
+                <div class="message assistant assistant-link" onclick="assistantNavigateTo('services')">
+                    I can tell you about our software engineering services and solutions.
                 </div>
-                <div class="message ai ai-link" onclick="aiNavigateTo('ticketing')">
+                <div class="message assistant assistant-link" onclick="assistantNavigateTo('ticketing')">
                     I can help you get support or submit a request.
                 </div>
             </div>
-            <div class="ai-input">
+            <div class="assistant-input">
                 <input type="text" class="chat-input" id="chat-input" placeholder="Type your message..." aria-label="Type your message">
                 <button class="send-btn" onclick="sendMessage()" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
             </div>
@@ -1256,13 +1255,13 @@
             }
         }
 
-        // AI Chat Functionality
-        function toggleAIChat() {
-            const aiChat = document.getElementById('ai-chat');
-            aiChat.classList.toggle('active');
+        // Assistant Chat Functionality
+        function toggleAssistantChat() {
+            const assistantChat = document.getElementById('assistant-chat');
+            assistantChat.classList.toggle('active');
             
             // Focus on input when chat opens
-            if (aiChat.classList.contains('active')) {
+            if (assistantChat.classList.contains('active')) {
                 setTimeout(() => {
                     document.getElementById('chat-input').focus();
                 }, 300);
@@ -1271,7 +1270,7 @@
 
         function sendMessage() {
             const input = document.getElementById('chat-input');
-            const messagesContainer = document.getElementById('ai-messages');
+            const messagesContainer = document.getElementById('assistant-messages');
             const message = input.value.trim();
             
             if (message === '') return;
@@ -1288,38 +1287,40 @@
             // Scroll to bottom
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Simulate AI response after a short delay
+            // Simulate assistant response after a short delay
             setTimeout(() => {
-                const aiResponse = getAIResponse(message);
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message ai';
-                aiMessage.textContent = aiResponse;
-                messagesContainer.appendChild(aiMessage);
+                const assistantResponse = getAssistantResponse(message);
+                const assistantMessage = document.createElement('div');
+                assistantMessage.className = 'message assistant';
+                assistantMessage.textContent = assistantResponse;
+                messagesContainer.appendChild(assistantMessage);
                 
                 // Scroll to bottom again
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }, 1000);
         }
 
-        function getAIResponse(message) {
+        function getAssistantResponse(message) {
             const lowerMessage = message.toLowerCase();
             
             if (lowerMessage.includes('service') || lowerMessage.includes('solution')) {
-                return "We offer a range of AI services including AI strategy, machine learning solutions, intelligent chatbots, data analytics, process automation, and AI security. Would you like me to direct you to our services section?";
+                return "We offer a range of software engineering services including custom development, process automation, data engineering, and security solutions. Would you like me to direct you to our services section?";
             } else if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('issue')) {
-                return "I can help you get the right support. We offer AI consultations, project proposals, technical support, and partnership inquiries. Would you like me to direct you to our support section?";
+                return "I can help you get the right support. We offer software engineering consultations, project proposals, technical support, and partnership inquiries. Would you like me to direct you to our support section?";
             } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('budget')) {
                 return "Our pricing depends on the scope and complexity of your project. We offer customized solutions tailored to your specific needs and budget. Would you like to submit a project request for a detailed quote?";
             } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                return "Hello! I'm TechWizAI, your virtual assistant. How can I help you learn more about our AI solutions today?";
+                return "Hello! I'm the TechWiz Assistant. How can I help you learn more about our software engineering solutions today?";
+            } else if (lowerMessage.includes('automation')) {
+                return "We specialize in intelligent automation solutions that streamline business processes and increase efficiency. Our automation services include workflow automation, data processing, and system integration.";
             } else {
-                return "I'm here to help you learn more about TechWizSoln's AI solutions. You can ask me about our services or how to get support for your specific needs.";
+                return "I'm here to help you learn more about TechWizSoln's software engineering solutions. You can ask me about our services or how to get support for your specific needs.";
             }
         }
 
-        function aiNavigateTo(section) {
+        function assistantNavigateTo(section) {
             scrollToSection(section);
-            toggleAIChat();
+            toggleAssistantChat();
         }
 
         // Update form fields based on ticket type selection
@@ -1422,15 +1423,15 @@
             dynamicFields.forEach(field => field.classList.remove('active'));
         }
 
-        // Close AI chat when clicking outside
+        // Close assistant chat when clicking outside
         document.addEventListener('click', function(event) {
-            const aiChat = document.getElementById('ai-chat');
-            const aiToggle = document.querySelector('.ai-toggle');
+            const assistantChat = document.getElementById('assistant-chat');
+            const assistantToggle = document.querySelector('.assistant-toggle');
             
-            if (aiChat.classList.contains('active') && 
-                !aiChat.contains(event.target) && 
-                !aiToggle.contains(event.target)) {
-                aiChat.classList.remove('active');
+            if (assistantChat.classList.contains('active') && 
+                !assistantChat.contains(event.target) && 
+                !assistantToggle.contains(event.target)) {
+                assistantChat.classList.remove('active');
             }
         });
 
@@ -1439,7 +1440,7 @@
             initializeBackgrounds();
             initializeFormSubmission();
             
-            // Add Enter key support for AI chat
+            // Add Enter key support for assistant chat
             document.getElementById('chat-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
@@ -1456,7 +1457,7 @@
             });
 
             // Touch event support for mobile devices
-            document.querySelector('.ai-toggle').addEventListener('touchstart', function(e) {
+            document.querySelector('.assistant-toggle').addEventListener('touchstart', function(e) {
                 e.preventDefault();
             }, { passive: false });
         });
