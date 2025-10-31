@@ -1,1385 +1,925 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechWizSoln | AI-Powered Business Solutions</title>
-    <style>
-        :root {
-            --bg-primary-dark: #0a0a0a;
-            --bg-secondary-dark: #1a1a1a;
-            --bg-accent-dark: #2a2a2a;
-            --text-primary-dark: #ffffff;
-            --text-secondary-dark: #a0a0a0;
-            
-            --bg-primary-light: #ffffff;
-            --bg-secondary-light: #f8f9fa;
-            --bg-accent-light: #e9ecef;
-            --text-primary-light: #212529;
-            --text-secondary-light: #6c757d;
-            
-            --accent-primary: #3a86ff;
-            --accent-secondary: #8338ec;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --error: #f44336;
-            --gradient-primary: linear-gradient(135deg, #3a86ff 0%, #8338ec 100%);
-            --gradient-secondary: linear-gradient(135deg, #8338ec 0%, #ff006e 100%);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --border-radius: 12px;
-            --glow: 0 0 15px rgba(58, 134, 255, 0.5);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: var(--bg-primary-dark);
-            --bg-secondary: var(--bg-secondary-dark);
-            --bg-accent: var(--bg-accent-dark);
-            --text-primary: var(--text-primary-dark);
-            --text-secondary: var(--text-secondary-dark);
-            --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            --border-color: rgba(58, 134, 255, 0.2);
-        }
-
-        [data-theme="light"] {
-            --bg-primary: var(--bg-primary-light);
-            --bg-secondary: var(--bg-secondary-light);
-            --bg-accent: var(--bg-accent-light);
-            --text-primary: var(--text-primary-light);
-            --text-secondary: var(--text-secondary-light);
-            --gradient-dark: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            --border-color: rgba(58, 134, 255, 0.3);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--bg-primary);
-            overflow-x: hidden;
-            transition: var(--transition);
-        }
-
-        /* Background Image Container */
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            filter: brightness(0.4);
-        }
-
-        .background-image.active {
-            opacity: 1;
-        }
-
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(var(--bg-primary), 0.7);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 4rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-link:hover {
-            color: var(--accent-primary);
-            background: rgba(58, 134, 255, 0.1);
-        }
-
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .theme-toggle {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--accent-primary);
-            padding: 0.5rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1.2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover {
-            background: var(--accent-primary);
-            color: white;
-        }
-
-        /* Updated AI Chat Button - Matching TechWizSoln Logo */
-        .ai-assistant {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .ai-toggle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
-            transition: var(--transition);
-            animation: pulse 2s infinite;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ai-toggle::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .ai-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(58, 134, 255, 0.6);
-        }
-
-        /* AI Chat */
-        .ai-chat {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 350px;
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 1001;
-        }
-
-        .ai-chat.active {
-            display: flex;
-        }
-
-        .ai-header {
-            padding: 20px;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ai-header h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ai-status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: blink 2s infinite;
-        }
-
-        .ai-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        .ai-messages {
-            flex: 1;
-            padding: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 12px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .message.user {
-            background: var(--gradient-primary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.ai {
-            background: rgba(255, 255, 255, 0.1);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .message.ai-link {
-            background: rgba(255, 255, 255, 0.1);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .message.ai-link:hover {
-            background: rgba(58, 134, 255, 0.1);
-        }
-
-        .ai-input {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.1);
-        }
-
-        .send-btn {
-            background: transparent;
-            color: var(--accent-primary);
-            border: 2px solid var(--accent-primary);
-            padding: 0.75rem 1rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .send-btn:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 8rem 2rem 6rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease-out;
-            line-height: 1.1;
-        }
-
-        .hero .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-primary);
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        /* Updated Button Styles - All Transparent */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-            border: 2px solid var(--accent-primary);
-            font-size: 1rem;
-            background: transparent;
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-primary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--accent-primary);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--accent-primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* Sections */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            background: rgba(var(--bg-primary), 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 4rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .service-card {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: var(--transition);
-            border: 1px solid var(--border-color);
-            position: relative;
-            padding: 2rem;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent-primary);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .service-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .service-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Form Styles */
-        .form-container {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 800px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--bg-accent);
-            border-radius: var(--border-radius);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.1);
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        /* Updated Form Buttons */
-        .form-container .btn {
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        /* Dynamic Form Fields */
-        .dynamic-field {
-            display: none;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .dynamic-field.active {
-            display: block;
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--success);
-        }
-
-        .success-message.active {
-            display: block;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .success-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: var(--success);
-        }
-
-        /* Background Controls */
-        .bg-controls {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            display: flex;
-            gap: 0.5rem;
-            z-index: 100;
-        }
-
-        .bg-control-btn {
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-        }
-
-        .bg-control-btn:hover {
-            background: var(--accent-primary);
-            transform: scale(1.1);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(58, 134, 255, 0.7);
-            }
-            50% { 
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(58, 134, 255, 0);
-            }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--bg-secondary);
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .footer-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-link:hover {
-            color: var(--accent-primary);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-
-            .hero {
-                padding: 6rem 1rem 4rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .section {
-                padding: 3rem 1rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ai-chat {
-                width: calc(100% - 2rem);
-                right: 1rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .bg-controls {
-                bottom: 1rem;
-                left: 1rem;
-            }
-
-            .ai-assistant {
-                bottom: 1rem;
-                right: 1rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brian Onsare | Software Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Define CSS custom properties */
+    :root {
+      --bg-color: #0f0f1a;
+      --surface-color: #1a1a2e;
+      --text-color: #e2e8f0;
+      --accent-color: #6366f1;
+      --secondary-color: #8b5cf6;
+    }
+
+    body {
+      box-sizing: border-box;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    .theme-transition {
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--surface-color);
+      border: 1px solid;
+      border-color: rgba(var(--accent-color-rgb), 0.1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    
+    .skill-bar {
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      background-color: rgba(var(--accent-color-rgb), 0.1);
+    }
+    
+    .skill-progress {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 2s ease-in-out;
+      background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-fade-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-dropdown {
+      background-color: var(--surface-color);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.2);
+      color: var(--text-color);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-dropdown:hover {
+      border-color: var(--accent-color);
+    }
+
+    .theme-dropdown option {
+      background-color: var(--surface-color);
+      color: var(--text-color);
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0% { transform: translate(0, 0px); }
+      50% { transform: translate(0, -15px); }
+      100% { transform: translate(0, 0px); }
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+    }
+
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(var(--accent-color-rgb), 0); }
+      100% { box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0); }
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      margin: 40px 0;
+    }
+
+    /* Status indicator dots */
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot:nth-child(2) {
+      animation-delay: 0.2s;
+      background-color: var(--secondary-color);
+    }
+
+    .status-dot:nth-child(3) {
+      animation-delay: 0.4s;
+      background-color: var(--accent-color);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      border-color: var(--accent-color);
+    }
+
+    .scroll-indicator-dot {
+      background-color: var(--accent-color);
+    }
+
+    /* Contact button border */
+    .contact-btn {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .contact-btn:hover {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    /* Theme-aware icons */
+    .theme-icon {
+      color: var(--accent-color);
+    }
+
+    .theme-icon-secondary {
+      color: var(--secondary-color);
+    }
+
+    .theme-icon-white {
+      color: white;
+    }
+
+    /* Project card backgrounds */
+    .project-card-bg {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Color picker styles */
+    .color-picker-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .color-picker-button {
+      background-color: var(--surface-color);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.2);
+      color: var(--text-color);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-picker-button:hover {
+      border-color: var(--accent-color);
+    }
+
+    .color-picker-popup {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 8px;
+      background: var(--surface-color);
+      border: 1px solid rgba(var(--accent-color-rgb), 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 1000;
+      min-width: 200px;
+      backdrop-filter: blur(10px);
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .color-option {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      border-color: var(--text-color);
+    }
+
+    .color-option.active {
+      border-color: var(--text-color);
+      transform: scale(1.1);
+    }
+
+    .preset-themes {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(var(--accent-color-rgb), 0.2);
+    }
+
+    .preset-theme {
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .preset-theme:hover {
+      background-color: rgba(var(--accent-color-rgb), 0.1);
+    }
+
+    .preset-theme.active {
+      background-color: rgba(var(--accent-color-rgb), 0.2);
+      color: var(--accent-color);
+    }
+  </style>
 </head>
-<body data-theme="dark">
-    <!-- Background Images -->
-    <div class="background-container" id="background-container">
-        <!-- Replace these placeholder URLs with your actual image URLs -->
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" class="background-image active" alt="Tech Background 1">
-        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 2">
-        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 3">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 4">
-        <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="background-image" alt="Tech Background 5">
+<body class="theme-transition">
+  <header class="fixed top-0 w-full z-50 backdrop-blur-md border-b theme-transition glass-effect" id="header">
+   <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="text-2xl font-bold gradient-text flex items-center" id="nav-name">
+      <i class="fas fa-code mr-2 theme-icon"></i>Brian Onsare
     </div>
-
-    <!-- Background Controls -->
-    <div class="bg-controls">
-        <button class="bg-control-btn" onclick="previousBackground()">◀</button>
-        <button class="bg-control-btn" onclick="toggleBackgroundRotation()">⏯️</button>
-        <button class="bg-control-btn" onclick="nextBackground()">▶</button>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">TechWizSoln</a>
-            <ul class="nav-menu">
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#solutions" class="nav-link">Solutions</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#ticketing" class="nav-link">Get Support</a></li>
-            </ul>
-            <div class="nav-controls">
-                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-            </div>
+    <div class="flex items-center space-x-6">
+     <div class="hidden md:flex space-x-6">
+       <a href="#about" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-about">
+         <i class="fas fa-user mr-2 theme-icon"></i>About
+       </a>
+       <a href="#skills" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-skills">
+         <i class="fas fa-cog mr-2 theme-icon"></i>Skills
+       </a>
+       <a href="#projects" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-projects">
+         <i class="fas fa-project-diagram mr-2 theme-icon"></i>Projects
+       </a>
+       <a href="#contact" class="hover:text-opacity-80 transition-colors theme-transition flex items-center" id="nav-contact">
+         <i class="fas fa-envelope mr-2 theme-icon"></i>Contact
+       </a>
+     </div>
+     <div class="color-picker-container">
+        <button class="color-picker-button theme-transition" id="theme-button">
+          <i class="fas fa-palette theme-icon"></i>
+          <span>Theme</span>
+        </button>
+        <div class="color-picker-popup theme-transition glass-effect" id="color-picker" style="display: none;">
+          <div class="color-grid">
+            <!-- Red colors -->
+            <div class="color-option" style="background-color: #ef4444;" data-color="#ef4444" data-secondary="#f87171"></div>
+            <div class="color-option" style="background-color: #dc2626;" data-color="#dc2626" data-secondary="#ef4444"></div>
+            <div class="color-option" style="background-color: #f97316;" data-color="#f97316" data-secondary="#fb923c"></div>
+            <div class="color-option" style="background-color: #ea580c;" data-color="#ea580c" data-secondary="#f97316"></div>
+            
+            <!-- Green colors -->
+            <div class="color-option" style="background-color: #10b981;" data-color="#10b981" data-secondary="#34d399"></div>
+            <div class="color-option" style="background-color: #059669;" data-color="#059669" data-secondary="#10b981"></div>
+            <div class="color-option" style="background-color: #65a30d;" data-color="#65a30d" data-secondary="#84cc16"></div>
+            <div class="color-option" style="background-color: #4d7c0f;" data-color="#4d7c0f" data-secondary="#65a30d"></div>
+            
+            <!-- Blue colors -->
+            <div class="color-option" style="background-color: #3b82f6;" data-color="#3b82f6" data-secondary="#60a5fa"></div>
+            <div class="color-option" style="background-color: #2563eb;" data-color="#2563eb" data-secondary="#3b82f6"></div>
+            <div class="color-option" style="background-color: #6366f1;" data-color="#6366f1" data-secondary="#8b5cf6"></div>
+            <div class="color-option" style="background-color: #4f46e5;" data-color="#4f46e5" data-secondary="#6366f1"></div>
+            
+            <!-- Purple colors -->
+            <div class="color-option" style="background-color: #8b5cf6;" data-color="#8b5cf6" data-secondary="#a855f7"></div>
+            <div class="color-option" style="background-color: #7c3aed;" data-color="#7c3aed" data-secondary="#8b5cf6"></div>
+            <div class="color-option" style="background-color: #a855f7;" data-color="#a855f7" data-secondary="#c084fc"></div>
+            <div class="color-option" style="background-color: #9333ea;" data-color="#9333ea" data-secondary="#a855f7"></div>
+            
+            <!-- Pink colors -->
+            <div class="color-option" style="background-color: #ec4899;" data-color="#ec4899" data-secondary="#f472b6"></div>
+            <div class="color-option" style="background-color: #db2777;" data-color="#db2777" data-secondary="#ec4899"></div>
+            <div class="color-option" style="background-color: #be185d;" data-color="#be185d" data-secondary="#db2777"></div>
+            
+            <!-- Teal colors -->
+            <div class="color-option" style="background-color: #14b8a6;" data-color="#14b8a6" data-secondary="#2dd4bf"></div>
+            <div class="color-option" style="background-color: #0d9488;" data-color="#0d9488" data-secondary="#14b8a6"></div>
+            
+            <!-- Cyan colors -->
+            <div class="color-option" style="background-color: #06b6d4;" data-color="#06b6d4" data-secondary="#22d3ee"></div>
+            <div class="color-option" style="background-color: #0891b2;" data-color="#0891b2" data-secondary="#06b6d4"></div>
+          </div>
+          <div class="preset-themes">
+            <div class="preset-theme theme-transition" data-theme="normal">Default Theme</div>
+            <div class="preset-theme theme-transition" data-theme="dark">Dark Blue</div>
+            <div class="preset-theme theme-transition" data-theme="nature">Nature Green</div>
+            <div class="preset-theme theme-transition" data-theme="sunset">Sunset Red</div>
+            <div class="preset-theme theme-transition" data-theme="ocean">Ocean Blue</div>
+          </div>
         </div>
-    </nav>
-
+      </div>
+    </div>
+   </nav>
+  </header>
+  
+  <main>
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Transform Your Business With AI</h1>
-            <p class="subtitle">TechWizSoln delivers cutting-edge AI solutions that drive innovation, efficiency, and growth for forward-thinking enterprises.</p>
-            <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="scrollToSection('services')">Explore Solutions</button>
-                <button class="btn btn-secondary" onclick="scrollToSection('ticketing')"> Ticket </button>
-            </div>
+    <section class="min-h-screen flex items-center justify-center px-6 theme-transition relative overflow-hidden" id="hero-section">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute -bottom-40 -left-32 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+      </div>
+      
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="animate-fade-in">
+          <div class="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-bg mb-8 pulse-animation">
+            <i class="fas fa-laptop-code text-white text-2xl theme-icon-white"></i>
+          </div>
+          <h1 class="text-5xl md:text-7xl font-bold mb-6 gradient-text" id="hero-name">Brian Onsare</h1>
+          <h2 class="text-2xl md:text-3xl mb-8 theme-transition flex items-center justify-center" id="hero-title">
+            <span class="mr-3">Software Engineer</span>
+            <span class="inline-flex space-x-1">
+              <span class="status-dot"></span>
+              <span class="status-dot"></span>
+              <span class="status-dot"></span>
+            </span>
+          </h2>
+          <p class="text-lg md:text-xl mb-12 max-w-2xl mx-auto opacity-80 theme-transition" id="hero-bio">Crafting robust, intelligent, and scalable solutions at the intersection of code and business logic. Specializing in backend development, data automation, and full-stack engineering.</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition gradient-bg text-white flex items-center justify-center" id="cta-projects">
+              <i class="fas fa-rocket mr-2 theme-icon-white"></i>View My Work
+            </button>
+            <button class="px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 theme-transition contact-btn border flex items-center justify-center" id="cta-contact">
+              <i class="fas fa-paper-plane mr-2 theme-icon"></i>Contact Us On
+            </button>
+          </div>
         </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <h2 class="section-title">Our Services</h2>
-        <p class="section-subtitle">We offer a comprehensive suite of AI-powered solutions tailored to your business needs</p>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🤖</div>
-                <h3 class="service-name">AI Strategy & Consulting</h3>
-                <p class="service-description">Develop a comprehensive AI roadmap aligned with your business objectives and digital transformation goals.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🧠</div>
-                <h3 class="service-name">Machine Learning Solutions</h3>
-                <p class="service-description">Build custom ML models that analyze data, predict trends, and automate complex decision-making processes.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">💬</div>
-                <h3 class="service-name">Intelligent Chatbots</h3>
-                <p class="service-description">Deploy AI-powered conversational agents that enhance customer service and streamline operations.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <h3 class="service-name">Data Analytics & Insights</h3>
-                <p class="service-description">Transform raw data into actionable intelligence with advanced analytics and visualization tools.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">⚙️</div>
-                <h3 class="service-name">Process Automation</h3>
-                <p class="service-description">Automate repetitive tasks and workflows to increase efficiency and reduce operational costs.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🔒</div>
-                <h3 class="service-name">AI Security Solutions</h3>
-                <p class="service-description">Protect your digital assets with AI-powered threat detection and cybersecurity systems.</p>
-            </div>
+      </div>
+      
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+        <div class="flex flex-col items-center">
+          <span class="text-sm opacity-70 mb-2 theme-icon">Scroll to explore</span>
+          <div class="w-6 h-10 scroll-indicator border-2 rounded-full flex justify-center">
+            <div class="w-1 h-3 scroll-indicator-dot rounded-full mt-2 floating"></div>
+          </div>
         </div>
+      </div>
     </section>
-
-    <!-- Solutions Section -->
-    <section id="solutions" class="section">
-        <h2 class="section-title">Industry Solutions</h2>
-        <p class="section-subtitle">Tailored AI implementations for specific industry challenges and opportunities</p>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🏥</div>
-                <h3 class="service-name">Healthcare</h3>
-                <p class="service-description">AI-powered diagnostics, patient monitoring, and drug discovery solutions.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🏦</div>
-                <h3 class="service-name">Finance</h3>
-                <p class="service-description">Fraud detection, algorithmic trading, and personalized banking experiences.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🛒</div>
-                <h3 class="service-name">Retail</h3>
-                <p class="service-description">Personalized recommendations, inventory optimization, and customer insights.</p>
-            </div>
-        </div>
-    </section>
-
+    
     <!-- About Section -->
-    <section id="about" class="section">
-        <h2 class="section-title">About TechWizSoln </h2>
-        <p class="section-subtitle">Pioneering the future of business through artificial intelligence</p>
-        <div class="form-container">
-            <h3 style="margin-bottom: 1.5rem; color: var(--accent-primary);">Our Mission</h3>
-            <p style="margin-bottom: 1.5rem; line-height: 1.7;">
-                At TechWizSoln, we believe that artificial intelligence represents the next frontier in business transformation. 
-                Our mission is to democratize AI technology, making it accessible and actionable for organizations of all sizes.
-            </p>
-            <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Our Story</h3>
-            <p style="line-height: 1.7;">
-                Founded in 2018 by a team of AI researchers and industry experts, TechWizSoln has grown to become a leading provider 
-                of enterprise AI solutions. We've successfully delivered over 200 projects across 15 industries, helping our clients 
-                unlock new opportunities and achieve measurable business outcomes.
-            </p>
+    <section class="py-20 px-6 theme-transition" id="about">
+     <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
+        <i class="fas fa-user mr-4 theme-icon"></i>About Me
+      </h2>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+       <div>
+        <p class="text-lg mb-6 opacity-90 theme-transition">Results-driven Software Engineer with over two years of experience in developing automation scripts, managing software implementations, and providing technical solutions. My passion lies in building backend systems and data pipelines that drive efficiency and insight.</p>
+        <p class="text-lg mb-6 opacity-90 theme-transition">I combine strong technical expertise with business acumen to bridge the gap between technology and end-users, delivering tailored software solutions that address real-world challenges.</p>
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
+            <i class="fas fa-code mr-2 theme-icon"></i>Backend Development
+          </span>
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
+            <i class="fas fa-database mr-2 theme-icon"></i>Data Automation
+          </span>
+          <span class="px-4 py-2 rounded-full text-sm font-medium theme-transition glass-effect flex items-center">
+            <i class="fas fa-cogs mr-2 theme-icon"></i>ERP Implementation
+          </span>
         </div>
+       </div>
+       <div class="flex justify-center">
+        <div class="w-80 h-80 rounded-2xl theme-transition flex items-center justify-center text-8xl gradient-bg relative overflow-hidden" id="avatar">
+          <i class="fas fa-laptop-code text-white relative z-10 theme-icon-white"></i>
+        </div>
+       </div>
+      </div>
+     </div>
     </section>
 
-    <!-- Ticketing System -->
-    <section id="ticketing" class="section">
-        <h2 class="section-title"> Ticket </h2>
-        <p class="section-subtitle">Select the type of assistance you need and provide relevant details for faster resolution</p>
-
-        <div class="form-container">
-            <div id="success-message" class="success-message">
-                <div class="success-icon">✅</div>
-                <h3>Ticket Submitted Successfully!</h3>
-                <p>Thank you for your submission. Our team will review your request and get back to you within 24 hours.</p>
-                <button class="btn btn-primary" onclick="resetForm()" style="margin-top: 1.5rem;">Submit Another Request</button>
-            </div>
-
-            <form id="ticket-form">
-                <div class="form-group">
-                    <label class="form-label" for="ticket-type">Request Type *</label>
-                    <select id="ticket-type" class="form-select" required onchange="updateFormFields()">
-                        <option value="">Select a request type</option>
-                        <option value="consultation">AI Consultation</option>
-                        <option value="project">Project Proposal</option>
-                        <option value="technical">Technical Support</option>
-                        <option value="partnership">Partnership Inquiry</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label" for="ticket-name">Full Name *</label>
-                        <input type="text" id="ticket-name" class="form-input" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="ticket-company">Company/Organization</label>
-                        <input type="text" id="ticket-company" class="form-input" placeholder="Enter your company name">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label" for="ticket-email">Email Address *</label>
-                        <input type="email" id="ticket-email" class="form-input" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="ticket-phone">Phone Number</label>
-                        <input type="tel" id="ticket-phone" class="form-input" placeholder="Enter your phone number">
-                    </div>
-                </div>
-
-                <!-- Consultation Fields -->
-                <div id="consultation-fields" class="dynamic-field">
-                    <div class="form-group">
-                        <label class="form-label" for="consultation-industry">Industry *</label>
-                        <select id="consultation-industry" class="form-select" required>
-                            <option value="">Select your industry</option>
-                            <option value="healthcare">Healthcare</option>
-                            <option value="finance">Finance & Banking</option>
-                            <option value="retail">Retail & E-commerce</option>
-                            <option value="manufacturing">Manufacturing</option>
-                            <option value="technology">Technology</option>
-                            <option value="education">Education</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="consultation-objectives">Business Objectives *</label>
-                        <textarea id="consultation-objectives" class="form-textarea" placeholder="Describe your primary business goals and challenges you hope to address with AI"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="consultation-timeline">Desired Timeline</label>
-                        <select id="consultation-timeline" class="form-select">
-                            <option value="">Select timeline</option>
-                            <option value="immediate">Immediate (within 1 month)</option>
-                            <option value="short-term">Short-term (1-3 months)</option>
-                            <option value="medium-term">Medium-term (3-6 months)</option>
-                            <option value="long-term">Long-term (6+ months)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Project Fields -->
-                <div id="project-fields" class="dynamic-field">
-                    <div class="form-group">
-                        <label class="form-label" for="project-type">Project Type *</label>
-                        <select id="project-type" class="form-select" required>
-                            <option value="">Select project type</option>
-                            <option value="custom-ai">Custom AI Solution</option>
-                            <option value="ml-model">Machine Learning Model</option>
-                            <option value="process-automation">Process Automation</option>
-                            <option value="data-analytics">Data Analytics & BI</option>
-                            <option value="chatbot">AI Chatbot Implementation</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="project-description">Project Description *</label>
-                        <textarea id="project-description" class="form-textarea" placeholder="Describe your project requirements, goals, and specific challenges"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="project-budget">Estimated Budget</label>
-                            <select id="project-budget" class="form-select">
-                                <option value="">Select budget range</option>
-                                <option value="5k-15k">$5,000 - $15,000</option>
-                                <option value="15k-50k">$15,000 - $50,000</option>
-                                <option value="50k-100k">$50,000 - $100,000</option>
-                                <option value="100k+">$100,000+</option>
-                                <option value="not-sure">Not sure / Need consultation</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="project-timeline">Project Timeline</label>
-                            <select id="project-timeline" class="form-select">
-                                <option value="">Select timeline</option>
-                                <option value="1-3">1-3 months</option>
-                                <option value="3-6">3-6 months</option>
-                                <option value="6-12">6-12 months</option>
-                                <option value="12+">12+ months</option>
-                                <option value="not-sure">Not sure / Need consultation</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Technical Support Fields -->
-                <div id="technical-fields" class="dynamic-field">
-                    <div class="form-group">
-                        <label class="form-label" for="technical-product">Product/Service *</label>
-                        <select id="technical-product" class="form-select" required>
-                            <option value="">Select product/service</option>
-                            <option value="nexus-ai-platform">Nexus AI Platform</option>
-                            <option value="custom-solution">Custom AI Solution</option>
-                            <option value="ml-model">Machine Learning Model</option>
-                            <option value="chatbot">AI Chatbot</option>
-                            <option value="data-analytics">Data Analytics Dashboard</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="technical-issue">Issue Description *</label>
-                        <textarea id="technical-issue" class="form-textarea" placeholder="Describe the issue you're experiencing, including error messages and steps to reproduce"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="technical-urgency">Urgency Level</label>
-                        <select id="technical-urgency" class="form-select">
-                            <option value="low">Low - General inquiry</option>
-                            <option value="medium" selected>Medium - Affecting some functionality</option>
-                            <option value="high">High - Critical functionality impacted</option>
-                            <option value="critical">Critical - System down or major outage</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Partnership Fields -->
-                <div id="partnership-fields" class="dynamic-field">
-                    <div class="form-group">
-                        <label class="form-label" for="partnership-type">Partnership Type *</label>
-                        <select id="partnership-type" class="form-select" required>
-                            <option value="">Select partnership type</option>
-                            <option value="technology">Technology Integration</option>
-                            <option value="reseller">Reseller Partnership</option>
-                            <option value="joint-venture">Joint Venture</option>
-                            <option value="strategic">Strategic Alliance</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="partnership-description">Partnership Proposal *</label>
-                        <textarea id="partnership-description" class="form-textarea" placeholder="Describe your partnership proposal and potential synergies"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="partnership-goals">Expected Outcomes</label>
-                        <textarea id="partnership-goals" class="form-textarea" placeholder="What are your goals for this partnership?"></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="additional-notes">Additional Notes</label>
-                    <textarea id="additional-notes" class="form-textarea" placeholder="Any other information you'd like to share"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit Request</button>
-            </form>
+    <div class="section-divider max-w-4xl mx-auto"></div>
+    
+    <!-- Skills Section -->
+    <section class="py-20 px-6 theme-transition" id="skills">
+     <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
+        <i class="fas fa-cogs mr-4 theme-icon"></i>Technical Skills
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+       <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-1">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
+            <i class="fas fa-code text-white theme-icon-white"></i>
+          </div>
+          <h3 class="text-xl font-semibold">Programming & Development</h3>
         </div>
+        <div class="space-y-4">
+         <div>
+          <div class="flex justify-between mb-2"><span>Python</span> <span>92%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 92%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>SQL</span> <span>88%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 88%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>HTML/CSS</span> <span>85%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 85%"></div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-2">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
+            <i class="fas fa-server text-white theme-icon-white"></i>
+          </div>
+          <h3 class="text-xl font-semibold">ERP & Business Systems</h3>
+        </div>
+        <div class="space-y-4">
+         <div>
+          <div class="flex justify-between mb-2"><span>Odoo</span> <span>90%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 90%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>SAP Business One</span> <span>85%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 85%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>CRM Systems</span> <span>88%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 88%"></div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-2xl card-hover theme-transition glass-effect" id="skill-card-3">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mr-4">
+            <i class="fas fa-chart-bar text-white theme-icon-white"></i>
+          </div>
+          <h3 class="text-xl font-semibold">Data & Analytics</h3>
+        </div>
+        <div class="space-y-4">
+         <div>
+          <div class="flex justify-between mb-2"><span>Power BI</span> <span>85%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 85%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>Excel Automation</span> <span>90%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 90%"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span>Data Analysis</span> <span>87%</span></div>
+          <div class="skill-bar theme-transition">
+           <div class="skill-progress" style="width: 87%"></div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 TechWizSoln All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <a href="#" class="footer-link">Careers</a>
-                <a href="#" class="footer-link">Blog</a>
-            </div>
+    <div class="section-divider max-w-4xl mx-auto"></div>
+    
+    <!-- Projects Section -->
+    <section class="py-20 px-6 theme-transition" id="projects">
+     <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-16 gradient-text flex items-center justify-center">
+        <i class="fas fa-project-diagram mr-4 theme-icon"></i>Featured Projects
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+       <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-1">
+        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <i class="fas fa-laptop-code text-white relative z-10 theme-icon-white"></i>
         </div>
-    </footer>
-
-    <!-- AI Assistant -->
-    <div class="ai-assistant">
-        <div class="ai-toggle" onclick="toggleAIChat()">
-            💬
+        <div class="p-6">
+         <h3 class="text-xl font-semibold mb-3">TechWizSoln</h3>
+         <p class="opacity-80 mb-4">Your comprehensive technology partner, engineering cutting-edge digital solutions for businesses and individuals. We architect, automate, and innovate—delivering everything from custom software and data intelligence platforms to seamless IT infrastructure.</p>
+         <div class="flex flex-wrap gap-2 mb-4">
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Odoo</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Power BI</span>
+         </div>
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         </button>
         </div>
-        <div class="ai-chat" id="ai-chat">
-            <div class="ai-header">
-                <h3><span class="ai-status"></span> NexusAI Assistant</h3>
-                <button class="ai-close" onclick="toggleAIChat()">✕</button>
-            </div>
-            <div class="ai-messages" id="ai-messages">
-                <div class="message ai">
-                    Hello! I'm TechWizSoln, your virtual assistant. How can I help you today?
-                </div>
-                <div class="message ai ai-link" onclick="aiNavigateTo('services')">
-                    I can tell you about our AI services and solutions.
-                </div>
-                <div class="message ai ai-link" onclick="aiNavigateTo('ticketing')">
-                    I can help you get support or submit a request.
-                </div>
-            </div>
-            <div class="ai-input">
-                <input type="text" class="chat-input" id="chat-input" placeholder="Type your message...">
-                <button class="send-btn" onclick="sendMessage()">➤</button>
-            </div>
+       </div>
+       <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-2">
+        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <i class="fas fa-cogs text-white relative z-10 theme-icon-white"></i>
         </div>
-    </div>
+        <div class="p-6">
+         <h3 class="text-xl font-semibold mb-3">ERP Implementation</h3>
+         <p class="opacity-80 mb-4">Custom Odoo and SAP Business One implementations for SMEs, translating business requirements into tailored software solutions with modules for CRM, Sales, and Inventory management.</p>
+         <div class="flex flex-wrap gap-2 mb-4">
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Odoo</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SAP B1</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
+         </div>
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         </button>
+        </div>
+       </div>
+       <div class="rounded-2xl overflow-hidden card-hover theme-transition glass-effect" id="project-card-3">
+        <div class="h-48 project-card-bg flex items-center justify-center text-6xl relative overflow-hidden">
+          <i class="fas fa-chart-line text-white relative z-10 theme-icon-white"></i>
+        </div>
+        <div class="p-6">
+         <h3 class="text-xl font-semibold mb-3">Data Automation Platform</h3>
+         <p class="opacity-80 mb-4">Python-powered automation platform for business intelligence, streamlining reporting processes and enabling data-driven decision-making through custom scripts and Power BI integration.</p>
+         <div class="flex flex-wrap gap-2 mb-4">
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Python</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Power BI</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">SQL</span>
+           <span class="px-3 py-1 rounded-full text-xs theme-transition glass-effect">Excel VBA</span>
+         </div>
+         <button class="w-full py-2 rounded-lg font-medium transition-colors theme-transition gradient-bg text-white flex items-center justify-center">
+           <i class="fas fa-external-link-alt mr-2 theme-icon-white"></i>View Project
+         </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
 
-    <script>
-        // Theme Management
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.body.setAttribute('data-theme', newTheme);
-            
-            // Update theme toggle button
-            const themeToggle = document.querySelector('.theme-toggle');
-            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-            
-            // Save preference to localStorage
-            localStorage.setItem('theme', newTheme);
+    <div class="section-divider max-w-4xl mx-auto"></div>
+    
+    <!-- Contact Section -->
+    <section class="py-20 px-6 theme-transition" id="contact">
+     <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8 gradient-text flex items-center justify-center">
+        <i class="fas fa-envelope mr-4 theme-icon"></i>Contact Us On
+      </h2>
+      <p class="text-xl mb-12 opacity-80">Let's discuss your next project or collaboration opportunity.</p>
+      <div class="grid md:grid-cols-4 gap-6 mb-12">
+       <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-1">
+        <div class="text-4xl mb-4 gradient-text">
+         <i class="fas fa-envelope theme-icon"></i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Email</h3>
+        <p class="opacity-80 text-sm">Brianairb200@gmail.com</p>
+       </div>
+       <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-2">
+        <div class="text-4xl mb-4 gradient-text">
+         <i class="fas fa-phone theme-icon"></i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Phone</h3>
+        <p class="opacity-80 text-sm">+254 724 443 940</p>
+       </div>
+       <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-3">
+        <div class="text-4xl mb-4 gradient-text">
+         <i class="fab fa-linkedin theme-icon"></i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">LinkedIn</h3>
+        <p class="opacity-80 text-sm">/in/brian-onsare</p>
+       </div>
+       <div class="p-6 rounded-2xl theme-transition glass-effect card-hover" id="contact-card-4">
+        <div class="text-4xl mb-4 gradient-text">
+         <i class="fab fa-github theme-icon"></i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">GitHub</h3>
+        <p class="opacity-80 text-sm">github.com/BURA-1</p>
+       </div>
+      </div>
+      <button class="px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 theme-transition gradient-bg text-white flex items-center justify-center mx-auto" id="contact-cta">
+        <i class="fas fa-paper-plane mr-2 theme-icon-white"></i>Start a Conversation
+      </button>
+     </div>
+    </section>
+  </main>
+  
+  <footer class="py-8 px-6 text-center opacity-60 theme-transition" id="footer">
+   <p>© 2025 Brian Onsare. Crafted with passion and code.</p>
+  </footer>
+  
+  <script>
+    // Theme configurations
+    const themes = {
+      normal: {
+        background_color: '#0f0f1a',
+        surface_color: '#1a1a2e',
+        text_color: '#e2e8f0',
+        accent_color: '#6366f1',
+        secondary_color: '#8b5cf6'
+      },
+      dark: {
+        background_color: '#0f172a',
+        surface_color: '#1e293b',
+        text_color: '#f1f5f9',
+        accent_color: '#3b82f6',
+        secondary_color: '#8b5cf6'
+      },
+      nature: {
+        background_color: '#0f1f15',
+        surface_color: '#1a3224',
+        text_color: '#d1fae5',
+        accent_color: '#10b981',
+        secondary_color: '#34d399'
+      },
+      sunset: {
+        background_color: '#1f0f0f',
+        surface_color: '#321a1a',
+        text_color: '#fecaca',
+        accent_color: '#ef4444',
+        secondary_color: '#f97316'
+      },
+      ocean: {
+        background_color: '#0f1a1f',
+        surface_color: '#1a2d32',
+        text_color: '#bae6fd',
+        accent_color: '#06b6d4',
+        secondary_color: '#0ea5e9'
+      }
+    };
+
+    // Helper function to convert hex to RGB
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    // Apply theme function
+    function applyTheme(themeName) {
+      const theme = themes[themeName];
+      if (!theme) return;
+
+      // Update CSS custom properties
+      document.documentElement.style.setProperty('--bg-color', theme.background_color);
+      document.documentElement.style.setProperty('--surface-color', theme.surface_color);
+      document.documentElement.style.setProperty('--text-color', theme.text_color);
+      document.documentElement.style.setProperty('--accent-color', theme.accent_color);
+      document.documentElement.style.setProperty('--secondary-color', theme.secondary_color);
+      
+      // Convert hex colors to RGB for rgba usage
+      const accentRgb = hexToRgb(theme.accent_color);
+      const surfaceRgb = hexToRgb(theme.surface_color);
+      
+      if (accentRgb) {
+        document.documentElement.style.setProperty('--accent-color-rgb', `${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}`);
+      }
+      
+      if (surfaceRgb) {
+        document.documentElement.style.setProperty('--surface-color-rgb', `${surfaceRgb.r}, ${surfaceRgb.g}, ${surfaceRgb.b}`);
+      }
+
+      // Update all icons
+      updateAllIcons(theme);
+      
+      // Update active states in color picker
+      updateColorPickerActiveStates(themeName);
+    }
+
+    // Function to apply custom color
+    function applyCustomColor(accentColor, secondaryColor) {
+      // Update CSS custom properties with custom colors
+      document.documentElement.style.setProperty('--accent-color', accentColor);
+      document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+      
+      // Convert hex colors to RGB for rgba usage
+      const accentRgb = hexToRgb(accentColor);
+      const surfaceRgb = hexToRgb('#1a1a2e'); // Keep surface color consistent
+      
+      if (accentRgb) {
+        document.documentElement.style.setProperty('--accent-color-rgb', `${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}`);
+      }
+      
+      if (surfaceRgb) {
+        document.documentElement.style.setProperty('--surface-color-rgb', `${surfaceRgb.r}, ${surfaceRgb.g}, ${surfaceRgb.b}`);
+      }
+
+      // Update all icons
+      const theme = {
+        accent_color: accentColor,
+        secondary_color: secondaryColor
+      };
+      updateAllIcons(theme);
+      
+      // Update active states in color picker
+      updateColorPickerActiveStates('custom');
+    }
+
+    // Function to update all icons with theme colors
+    function updateAllIcons(theme) {
+      // Update theme-icon classes (accent color)
+      const themeIcons = document.querySelectorAll('.theme-icon');
+      themeIcons.forEach(icon => {
+        icon.style.color = theme.accent_color;
+      });
+
+      // Update theme-icon-secondary classes (secondary color)
+      const themeIconsSecondary = document.querySelectorAll('.theme-icon-secondary');
+      themeIconsSecondary.forEach(icon => {
+        icon.style.color = theme.secondary_color;
+      });
+
+      // Update theme-icon-white classes (white - for gradient backgrounds)
+      const themeIconsWhite = document.querySelectorAll('.theme-icon-white');
+      themeIconsWhite.forEach(icon => {
+        icon.style.color = '#ffffff';
+      });
+
+      // Update status dots
+      const statusDots = document.querySelectorAll('.status-dot');
+      if (statusDots.length >= 3) {
+        statusDots[0].style.backgroundColor = theme.accent_color;
+        statusDots[1].style.backgroundColor = theme.secondary_color;
+        statusDots[2].style.backgroundColor = theme.accent_color;
+      }
+
+      // Update scroll indicator
+      const scrollText = document.querySelector('.scroll-indicator + .flex span');
+      if (scrollText) {
+        scrollText.style.color = theme.accent_color;
+      }
+      
+      const scrollBorder = document.querySelector('.scroll-indicator');
+      if (scrollBorder) {
+        scrollBorder.style.borderColor = theme.accent_color;
+      }
+      
+      const scrollDot = document.querySelector('.scroll-indicator-dot');
+      if (scrollDot) {
+        scrollDot.style.backgroundColor = theme.accent_color;
+      }
+    }
+
+    // Function to update color picker active states
+    function updateColorPickerActiveStates(activeTheme) {
+      // Remove active class from all color options and preset themes
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      document.querySelectorAll('.preset-theme').forEach(theme => {
+        theme.classList.remove('active');
+      });
+      
+      // Add active class to current theme
+      if (activeTheme !== 'custom') {
+        const activePreset = document.querySelector(`.preset-theme[data-theme="${activeTheme}"]`);
+        if (activePreset) {
+          activePreset.classList.add('active');
         }
+      }
+    }
 
-        // Initialize theme from localStorage
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.body.setAttribute('data-theme', savedTheme);
-            
-            // Update theme toggle button
-            const themeToggle = document.querySelector('.theme-toggle');
-            themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-        }
+    // Theme selector event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeButton = document.getElementById('theme-button');
+      const colorPicker = document.getElementById('color-picker');
 
-        // Background Image Management
-        let currentBackgroundIndex = 0;
-        let backgroundRotationInterval = null;
-        const backgroundImages = document.querySelectorAll('.background-image');
-        const totalBackgrounds = backgroundImages.length;
+      // Toggle color picker
+      themeButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        colorPicker.style.display = colorPicker.style.display === 'none' ? 'block' : 'none';
+      });
 
-        function showBackground(index) {
-            // Hide all backgrounds
-            backgroundImages.forEach(img => img.classList.remove('active'));
-            
-            // Show the selected background
-            backgroundImages[index].classList.add('active');
-            currentBackgroundIndex = index;
-        }
+      // Close color picker when clicking outside
+      document.addEventListener('click', function() {
+        colorPicker.style.display = 'none';
+      });
 
-        function nextBackground() {
-            let nextIndex = (currentBackgroundIndex + 1) % totalBackgrounds;
-            showBackground(nextIndex);
-        }
+      // Prevent color picker from closing when clicking inside
+      colorPicker.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
 
-        function previousBackground() {
-            let prevIndex = (currentBackgroundIndex - 1 + totalBackgrounds) % totalBackgrounds;
-            showBackground(prevIndex);
-        }
-
-        function toggleBackgroundRotation() {
-            if (backgroundRotationInterval) {
-                clearInterval(backgroundRotationInterval);
-                backgroundRotationInterval = null;
-            } else {
-                backgroundRotationInterval = setInterval(nextBackground, 5000);
-            }
-        }
-
-        // Initialize background rotation
-        function initializeBackgrounds() {
-            // Start with the first background
-            showBackground(0);
-            
-            // Start automatic rotation
-            toggleBackgroundRotation();
-        }
-
-        // Smooth Scrolling
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // AI Chat Functionality
-        function toggleAIChat() {
-            const aiChat = document.getElementById('ai-chat');
-            aiChat.classList.toggle('active');
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const messagesContainer = document.getElementById('ai-messages');
-            const message = input.value.trim();
-            
-            if (message === '') return;
-            
-            // Add user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user';
-            userMessage.textContent = message;
-            messagesContainer.appendChild(userMessage);
-            
-            // Clear input
-            input.value = '';
-            
-            // Scroll to bottom
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // Simulate AI response after a short delay
-            setTimeout(() => {
-                const aiResponse = getAIResponse(message);
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message ai';
-                aiMessage.textContent = aiResponse;
-                messagesContainer.appendChild(aiMessage);
-                
-                // Scroll to bottom again
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1000);
-        }
-
-        function getAIResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            
-            if (lowerMessage.includes('service') || lowerMessage.includes('solution')) {
-                return "We offer a range of AI services including AI strategy, machine learning solutions, intelligent chatbots, data analytics, process automation, and AI security. Would you like me to direct you to our services section?";
-            } else if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('issue')) {
-                return "I can help you get the right support. We offer AI consultations, project proposals, technical support, and partnership inquiries. Would you like me to direct you to our support section?";
-            } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('budget')) {
-                return "Our pricing depends on the scope and complexity of your project. We offer customized solutions tailored to your specific needs and budget. Would you like to submit a project request for a detailed quote?";
-            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                return "Hello! I'm TechWizSoln, your virtual assistant. How can I help you learn more about our AI solutions today?";
-            } else {
-                return "I'm here to help you learn more about TechWizSoln's AI solutions. You can ask me about our services or how to get support for your specific needs.";
-            }
-        }
-
-        function aiNavigateTo(section) {
-            scrollToSection(section);
-            toggleAIChat();
-        }
-
-        // Update form fields based on ticket type selection
-        function updateFormFields() {
-            const ticketType = document.getElementById('ticket-type').value;
-            const dynamicFields = document.querySelectorAll('.dynamic-field');
-            
-            // Hide all dynamic fields
-            dynamicFields.forEach(field => field.classList.remove('active'));
-            
-            // Show the relevant dynamic fields
-            if (ticketType) {
-                document.getElementById(`${ticketType}-fields`).classList.add('active');
-            }
-        }
-
-        // Form Submission
-        function initializeFormSubmission() {
-            const form = document.getElementById('ticket-form');
-            const successMessage = document.getElementById('success-message');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get the selected ticket type
-                const ticketType = document.getElementById('ticket-type').value;
-                
-                // Basic validation
-                const name = document.getElementById('ticket-name').value;
-                const email = document.getElementById('ticket-email').value;
-                
-                if (!name || !email || !ticketType) {
-                    alert('Please fill in all required fields.');
-                    return;
-                }
-                
-                // Additional validation based on ticket type
-                let isValid = true;
-                let errorMessage = '';
-                
-                if (ticketType === 'consultation') {
-                    const industry = document.getElementById('consultation-industry').value;
-                    const objectives = document.getElementById('consultation-objectives').value;
-                    
-                    if (!industry || !objectives) {
-                        isValid = false;
-                        errorMessage = 'Please fill in all required consultation fields.';
-                    }
-                } else if (ticketType === 'project') {
-                    const projectType = document.getElementById('project-type').value;
-                    const description = document.getElementById('project-description').value;
-                    
-                    if (!projectType || !description) {
-                        isValid = false;
-                        errorMessage = 'Please fill in all required project fields.';
-                    }
-                } else if (ticketType === 'technical') {
-                    const product = document.getElementById('technical-product').value;
-                    const issue = document.getElementById('technical-issue').value;
-                    
-                    if (!product || !issue) {
-                        isValid = false;
-                        errorMessage = 'Please fill in all required technical support fields.';
-                    }
-                } else if (ticketType === 'partnership') {
-                    const partnershipType = document.getElementById('partnership-type').value;
-                    const description = document.getElementById('partnership-description').value;
-                    
-                    if (!partnershipType || !description) {
-                        isValid = false;
-                        errorMessage = 'Please fill in all required partnership fields.';
-                    }
-                }
-                
-                if (!isValid) {
-                    alert(errorMessage);
-                    return;
-                }
-                
-                // In a real application, you would send this data to a server
-                // For now, we'll just show the success message
-                form.style.display = 'none';
-                successMessage.classList.add('active');
-            });
-        }
-
-        function resetForm() {
-            const form = document.getElementById('ticket-form');
-            const successMessage = document.getElementById('success-message');
-            
-            // Reset form display
-            form.style.display = 'block';
-            successMessage.classList.remove('active');
-            
-            // Reset form fields
-            form.reset();
-            
-            // Hide all dynamic fields
-            const dynamicFields = document.querySelectorAll('.dynamic-field');
-            dynamicFields.forEach(field => field.classList.remove('active'));
-        }
-
-        // Initialize everything when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            initializeBackgrounds();
-            initializeFormSubmission();
-            
-            // Add Enter key support for AI chat
-            document.getElementById('chat-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-            
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    scrollToSection(targetId);
-                });
-            });
+      // Color option click handlers
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.addEventListener('click', function() {
+          const accentColor = this.getAttribute('data-color');
+          const secondaryColor = this.getAttribute('data-secondary');
+          applyCustomColor(accentColor, secondaryColor);
+          colorPicker.style.display = 'none';
         });
-    </script>
+      });
+
+      // Preset theme click handlers
+      document.querySelectorAll('.preset-theme').forEach(theme => {
+        theme.addEventListener('click', function() {
+          const themeName = this.getAttribute('data-theme');
+          applyTheme(themeName);
+          colorPicker.style.display = 'none';
+        });
+      });
+
+      // Apply default theme
+      applyTheme('normal');
+
+      // Smooth scrolling for navigation
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // CTA button actions
+      document.getElementById('cta-projects').addEventListener('click', function() {
+        document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('cta-contact').addEventListener('click', function() {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('contact-cta').addEventListener('click', function() {
+        // Create a simple contact modal effect
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
+        this.style.backgroundColor = '#10b981';
+        setTimeout(() => {
+          this.innerHTML = originalText;
+          applyTheme('normal');
+        }, 2000);
+      });
+
+      // Animate skill bars on scroll
+      const observerOptions = {
+        threshold: 0.5
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const skillBars = entry.target.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+              const width = bar.style.width;
+              bar.style.width = '0';
+              setTimeout(() => {
+                bar.style.width = width;
+              }, 300);
+            });
+          }
+        });
+      }, observerOptions);
+
+      const skillSections = document.querySelectorAll('#skill-card-1, #skill-card-2, #skill-card-3');
+      skillSections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
 </body>
-
 </html>
-
